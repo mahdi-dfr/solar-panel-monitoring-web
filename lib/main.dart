@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'Solar Monitoring Web',
       debugShowCheckedModeBanner: false,
       home: const DashboardPage(),
       locale: const Locale('fa', 'IR'),

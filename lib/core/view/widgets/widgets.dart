@@ -199,34 +199,42 @@ class _BaseCard extends StatelessWidget {
   final String subtitle;
   final Widget child;
 
-  const _BaseCard({
+   _BaseCard({
     required this.title,
     required this.subtitle,
     required this.child,
   });
+
+  final _controller = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: context.height / 3,
 
-      child: Card(
-        elevation: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text(subtitle, style: const TextStyle(fontSize: 12)),
-              const SizedBox(height: 12),
-              child,
-            ],
+      child: MouseRegion(
+        onHover: (e){
+          _controller.isHover.value = true;
+        },
+        child:  Card(
+
+            elevation: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Text(subtitle, style: const TextStyle(fontSize: 12)),
+                  const SizedBox(height: 12),
+                  child,
+                ],
+              ),
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

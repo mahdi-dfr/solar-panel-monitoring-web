@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:solar_web/core/contrroller/dashboard_controller.dart';
 import 'package:solar_web/core/view/widgets/widgets.dart';
 
+import '../../../constants/app_colors.dart';
+
 class DashboardPage extends GetView<DashboardController> {
   const DashboardPage({super.key});
 
@@ -11,7 +13,7 @@ class DashboardPage extends GetView<DashboardController> {
     Get.put(DashboardController());
 
     return Scaffold(
-      backgroundColor: const Color(0xfff5f6f8),
+      backgroundColor: CustomAppColors.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(

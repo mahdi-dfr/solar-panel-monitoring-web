@@ -4,6 +4,8 @@ import 'package:solar_web/core/model/dashboard_model.dart';
 class DashboardController extends GetxController {
   final selectedPanelId = 1.obs;
 
+  final isHover = false.obs;
+
   final panels = <PanelModel>[
     PanelModel(1, 0.23, 24, 1.04),
     PanelModel(2, 0.52, 24, 2.36),
