@@ -4,6 +4,7 @@ import 'package:solar_web/core/contrroller/dashboard_controller.dart';
 import 'package:solar_web/core/view/widgets/widgets.dart';
 
 import '../../../constants/app_colors.dart';
+import 'hitmap_screen.dart';
 
 class DashboardPage extends GetView<DashboardController> {
   const DashboardPage({super.key});
@@ -20,13 +21,26 @@ class DashboardPage extends GetView<DashboardController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "نمای کلی",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      const Text(
+                        "نمای کلی",
+                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text("خلاصه وضعیت سیستم"),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                  ElevatedButton(onPressed: (){
+                    Get.to(PanelOverviewPage());
+                  }, child: Text('هیت مپ')),
+                ],
               ),
-              const SizedBox(height: 4),
-              const Text("خلاصه وضعیت سیستم"),
-              const SizedBox(height: 24),
+
 
               /// TOP CARDS
               Row(
