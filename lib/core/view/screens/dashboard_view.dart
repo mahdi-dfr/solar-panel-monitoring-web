@@ -11,58 +11,91 @@ class DashboardPage extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(DashboardController());
-
-    return Scaffold(
-      backgroundColor: CustomAppColors.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return Scaffold(
+          backgroundColor: CustomAppColors.backgroundColor,
+          body: Padding(
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "نمای کلی",
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      Column(
+                        children: [
+                          const Text("نمای کلی", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 4),
+                          const Text("خلاصه وضعیت سیستم"),
+                          const SizedBox(height: 24),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      const Text("خلاصه وضعیت سیستم"),
-                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.to(PanelOverviewPage());
+                        },
+                        child: Text('هیت مپ'),
+                      ),
                     ],
                   ),
-                  ElevatedButton(onPressed: (){
-                    Get.to(PanelOverviewPage());
-                  }, child: Text('هیت مپ')),
+                  TopCards(),
+                  const SizedBox(height: 32),
+
+                  /// TABLE
+                  const PanelStatusTable(),
                 ],
               ),
-
-
-              /// TOP CARDS
-              Row(
-                children: const [
-                  Expanded(child: AnimatedEntry(delay: 0, child: SolarRadianceCard())),
-                  SizedBox(width: 16),
-                  Expanded(child: AnimatedEntry(delay: 120, child: PowerOutputCard())),
-                  SizedBox(width: 16),
-                  Expanded(child: AnimatedEntry(delay: 240, child: EnergyStorageCard())),
-                  SizedBox(width: 16),
-                  Expanded(child: AnimatedEntry(delay: 360, child: LatestEventsCard())),
-                ],
-              ),
-
-              const SizedBox(height: 32),
-
-              /// TABLE
-              const PanelStatusTable(),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
+    );
+  }
+}
+
+class TopCards extends StatelessWidget {
+  const TopCards({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
+    return LayoutBuilder(
+      builder: (_, __) {
+        double cardWidth;
+
+        if (width >= 1200) {
+          cardWidth = (width - 96) / 4; // 4 کارت کنار هم
+        } else if (width >= 900) {
+          cardWidth = (width - 64) / 2; // 2 کارت
+        } else {
+          cardWidth = width; // موبایل
+        }
+        return Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            SizedBox(
+              width: cardWidth,
+              child: const AnimatedEntry(delay: 0, child: SolarRadianceCard()),
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: const AnimatedEntry(delay: 120, child: PowerOutputCard()),
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: const AnimatedEntry(delay: 240, child: EnergyStorageCard()),
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: const AnimatedEntry(delay: 360, child: LatestEventsCard()),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_web/constants/app_bindings.dart';
 
 import 'core/view/screens/dashboard_view.dart';
 
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Solar Monitoring Web',
       debugShowCheckedModeBanner: false,
-      home: const DashboardPage(),
+      initialBinding: AppBindings(),
+      home:  DashboardPage(),
       locale: const Locale('fa', 'IR'),
     );
   }
