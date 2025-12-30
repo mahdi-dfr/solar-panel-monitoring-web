@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:solar_web/constants/app_colors.dart';
+
+import '../../model/hitmap_model.dart';
 
 class PanelOverviewPage extends StatelessWidget {
   PanelOverviewPage({super.key});
 
-  // دیتای تست (40 آیتم)
-  final List<PanelItem> panels = List.generate(
+  final List<PanelHitMapItem> panels = List.generate(
     40,
-        (index) => PanelItem(
+        (index) => PanelHitMapItem(
       id: index + 1,
-      value: 70 + (index % 10),
+      voltage: 'v ${70 + (index % 10)}',
       isActive: index % 7 != 0, // چندتا قرمز برای تست
     ),
   );
@@ -16,66 +19,74 @@ class PanelOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          width: 900,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xfff7f7f7),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-              )
-            ],
-          ),
+      backgroundColor: CustomAppColors.backgroundColor,
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// Title
               const Text(
                 'نمای کلی پنل‌ها',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: Container(
+                  width: context.width,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xfff7f7f7),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+
+                      /// Grid
+                      GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: panels.length,
+                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: context.width > 900 ? 10 : 5,
+                          crossAxisSpacing: 6,
+                          mainAxisSpacing: 6,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          return PanelBox(item: panels[index]);
+                        },
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      /// Legend
+                      Row(
+                        children: const [
+                          LegendItem(
+                            color: Colors.green,
+                            text: 'پنل فعال',
+                          ),
+                          SizedBox(width: 20),
+                          LegendItem(
+                            color: Colors.red,
+                            text: 'پنل غیرفعال',
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-
-              /// Grid
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: panels.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 10,
-                  crossAxisSpacing: 6,
-                  mainAxisSpacing: 6,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  return PanelBox(item: panels[index]);
-                },
-              ),
-
-              const SizedBox(height: 20),
-
-              /// Legend
-              Row(
-                children: const [
-                  LegendItem(
-                    color: Colors.green,
-                    text: 'پنل فعال',
-                  ),
-                  SizedBox(width: 20),
-                  LegendItem(
-                    color: Colors.red,
-                    text: 'پنل غیرفعال',
-                  ),
-                ],
-              )
             ],
           ),
         ),
@@ -86,7 +97,7 @@ class PanelOverviewPage extends StatelessWidget {
 
 
 class PanelBox extends StatelessWidget {
-  final PanelItem item;
+  final PanelHitMapItem item;
 
   const PanelBox({super.key, required this.item});
 
@@ -110,7 +121,7 @@ class PanelBox extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            item.value.toString(),
+            item.voltage.toString(),
             style: const TextStyle(
               fontSize: 14,
               color: Colors.black,
@@ -123,17 +134,7 @@ class PanelBox extends StatelessWidget {
 }
 
 
-class PanelItem {
-  final int id;
-  final int value;
-  final bool isActive;
 
-  PanelItem({
-    required this.id,
-    required this.value,
-    required this.isActive,
-  });
-}
 
 class LegendItem extends StatelessWidget {
   final Color color;
