@@ -166,8 +166,7 @@ class PanelStatusTable extends GetView<DashboardController> {
         elevation: 1,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Obx(() {
-            return Theme(
+          child: Theme(
               data: theme.copyWith(
                 checkboxTheme: CheckboxThemeData(
                   fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -180,46 +179,53 @@ class PanelStatusTable extends GetView<DashboardController> {
                   ),
                 ),
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minWidth: 650),
-                  child: DataTable(
-                    columnSpacing: 32,
-                    headingRowHeight: 48,
-                    dataRowHeight: 46,
-                    columns: const [
-                      DataColumn(label: Text("پنل")),
-                      DataColumn(label: Text("تابش خورشیدی")),
-                      DataColumn(label: Text("ولتاژ")),
-                      DataColumn(label: Text("جریان")),
-                    ],
-                    rows: controller.panels.map((panel) {
-                      final isSelected =
-                          controller.selectedPanelId.value == panel.id;
+              child: LayoutBuilder(
+                builder: (context, constraint) {
+                  return Obx((){
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minWidth: constraint.maxWidth),
+                        child: DataTable(
+                          columnSpacing: 32,
+                          headingRowHeight: 48,
+                          dataRowHeight: 46,
+                          columns: const [
+                            DataColumn(label: Text("پنل")),
+                            DataColumn(label: Text("تابش خورشیدی")),
+                            DataColumn(label: Text("ولتاژ")),
+                            DataColumn(label: Text("جریان")),
+                          ],
+                          rows: controller.panels.map((panel) {
+                            final isSelected =
+                                controller.selectedPanelId.value == panel.id;
 
-                      return DataRow(
-                        selected: isSelected,
-                        onSelectChanged: (_) =>
-                            controller.selectPanel(panel.id),
-                        cells: [
-                          DataCell(Text(panel.id.toString())),
-                          DataCell(Text("${panel.radiance} kW/m²")),
-                          DataCell(Text("${panel.voltage} V")),
-                          DataCell(Text("${panel.current} A")),
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                ),
+                            return DataRow(
+                              selected: isSelected,
+                              onSelectChanged: (_) =>
+                                  controller.selectPanel(panel.id),
+                              cells: [
+                                DataCell(Text(panel.id.toString())),
+                                DataCell(Text("${panel.radiance} kW/m²")),
+                                DataCell(Text("${panel.voltage} V")),
+                                DataCell(Text("${panel.current} A")),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  }
+                  );
+                }
               ),
-            );
-          }),
+            ),
         ),
       ),
     );
   }
 }
+
 
 
 
