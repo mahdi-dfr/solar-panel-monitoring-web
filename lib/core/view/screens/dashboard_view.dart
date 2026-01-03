@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_web/constants/constant.dart';
 import 'package:solar_web/core/contrroller/dashboard_controller.dart';
 import 'package:solar_web/core/view/widgets/widgets.dart';
 
@@ -23,23 +24,37 @@ class DashboardPage extends GetView<DashboardController> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("نمای کلی", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 4),
-                          const Text("خلاصه وضعیت سیستم"),
-                          const SizedBox(height: 24),
+                          Image.asset(AppConstants.logo, width: context.width / 14,),
+                          SizedBox(width: 24,),
+                          Column(
+                            children: [
+                              const Text("نمای کلی", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 4),
+                              const Text("خلاصه وضعیت سیستم"),
+                            ],
+                          ),
                         ],
                       ),
                       ElevatedButton(
                         onPressed: () {
                           Get.to(PanelOverviewPage());
                         },
-                        child: Text('هیت مپ'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomAppColors.secondaryColor,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          elevation: 6,
+                        ),
+                        child: Text('هیت مپ', style: TextStyle(color: CustomAppColors.backgroundColor),),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 50),
                   TopCards(),
                   const SizedBox(height: 32),
 

@@ -32,12 +32,14 @@ class SolarLoginPage extends GetView<LoginController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(height: 24),
+                      Image.asset(AppConstants.logo, width: context.width / 10,),
+                      const SizedBox(height: 12),
                       Text(
                         'مانیتورینگ پنل های خورشیدی',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: CustomAppColors.secondaryColor,
+                          color: Colors.red,
                         ),
                       ),
                       const SizedBox(height: 24),
