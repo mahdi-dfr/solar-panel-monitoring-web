@@ -1,6 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_web/core/view/screens/dashboard_view.dart';
 
 class LoginController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -52,13 +53,13 @@ class LoginController extends GetxController
 
     if (username.isEmpty || password.isEmpty) {
       Get.snackbar(
-        'Login Error',
-        'Username and password are required',
-        snackPosition: SnackPosition.BOTTOM,
+        'خطا',
+        'لطفا نام کاربری و رمز عبور را وارد کنید',
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
 
-    // TODO: Call API (Django / JWT)
+    Get.offAll(DashboardPage());
   }
 }
