@@ -32,9 +32,13 @@ class SolarLoginPage extends GetView<LoginController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         'مانیتورینگ پنل های خورشیدی',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1B5E20)),
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: CustomAppColors.secondaryColor,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       _InputField(
@@ -91,11 +95,11 @@ class _InputField extends StatelessWidget {
       obscureText: obscure,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: const Color(0xFF2E7D32)),
+        prefixIcon: Icon(icon, color: CustomAppColors.secondaryColor),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+          borderSide: BorderSide(color: CustomAppColors.secondaryColor, width: 2),
         ),
       ),
     );
@@ -115,7 +119,7 @@ class _LoginButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF2E7D32),
+          backgroundColor: CustomAppColors.secondaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           elevation: 6,
         ),

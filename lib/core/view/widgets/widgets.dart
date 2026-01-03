@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_web/constants/app_colors.dart';
 import 'package:solar_web/core/contrroller/dashboard_controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -107,8 +108,8 @@ class LatestEventsCard extends StatelessWidget {
       subtitle: "آخرین رویدادهای مربوط به سیستم",
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("• باتری شماره ۲ کاملاً شارژ شده است", style: TextStyle(color: Colors.green)),
+        children: [
+          Text("• باتری شماره ۲ کاملاً شارژ شده است", style: TextStyle(color: CustomAppColors.secondaryColor)),
           SizedBox(height: 8),
           Text("• ورود از دستگاه جدید انجام شد"),
           SizedBox(height: 8),
@@ -157,6 +158,8 @@ class PanelStatusTable extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: context.width,
       child: Card(
@@ -164,25 +167,52 @@ class PanelStatusTable extends GetView<DashboardController> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Obx(() {
-            return DataTable(
-              columns: const [
-                DataColumn(label: Text("پنل")),
-                DataColumn(label: Text("تابش خورشیدی")),
-                DataColumn(label: Text("ولتاژ")),
-                DataColumn(label: Text("جریان")),
-              ],
-              rows: controller.panels.map((panel) {
-                return DataRow(
-                  selected: controller.selectedPanelId.value == panel.id,
-                  onSelectChanged: (_) => controller.selectPanel(panel.id),
-                  cells: [
-                    DataCell(Text(panel.id.toString())),
-                    DataCell(Text("${panel.radiance} kW/m²")),
-                    DataCell(Text("${panel.voltage} V")),
-                    DataCell(Text("${panel.current} A")),
-                  ],
-                );
-              }).toList(),
+            return Theme(
+              data: theme.copyWith(
+                checkboxTheme: CheckboxThemeData(
+                  fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return Colors.green; // ✅ رنگ سبز
+                      }
+                      return Colors.grey.shade400;
+                    },
+                  ),
+                ),
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 650),
+                  child: DataTable(
+                    columnSpacing: 32,
+                    headingRowHeight: 48,
+                    dataRowHeight: 46,
+                    columns: const [
+                      DataColumn(label: Text("پنل")),
+                      DataColumn(label: Text("تابش خورشیدی")),
+                      DataColumn(label: Text("ولتاژ")),
+                      DataColumn(label: Text("جریان")),
+                    ],
+                    rows: controller.panels.map((panel) {
+                      final isSelected =
+                          controller.selectedPanelId.value == panel.id;
+
+                      return DataRow(
+                        selected: isSelected,
+                        onSelectChanged: (_) =>
+                            controller.selectPanel(panel.id),
+                        cells: [
+                          DataCell(Text(panel.id.toString())),
+                          DataCell(Text("${panel.radiance} kW/m²")),
+                          DataCell(Text("${panel.voltage} V")),
+                          DataCell(Text("${panel.current} A")),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
             );
           }),
         ),
@@ -190,6 +220,8 @@ class PanelStatusTable extends GetView<DashboardController> {
     );
   }
 }
+
+
 
 ///
 /// BASE CARD UI
