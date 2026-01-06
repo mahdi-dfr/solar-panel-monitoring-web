@@ -10,8 +10,8 @@ class SolarRadianceCard extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return _BaseCard(
-      title: "تابش خورشیدی",
-      subtitle: "میزان تابش خورشید در هر پنل",
+      title: "میزان تابش در هر استرینگ",
+      subtitle: "میزان تابش خورشید در هر استرینگ",
       child: Obx(() {
         final p = controller.selectedPanel;
         return _ChartWrapper(
@@ -172,7 +172,7 @@ class PanelStatusTable extends GetView<DashboardController> {
                   fillColor: MaterialStateProperty.resolveWith<Color>(
                         (states) {
                       if (states.contains(MaterialState.selected)) {
-                        return Colors.green; // ✅ رنگ سبز
+                        return Colors.green;
                       }
                       return Colors.grey.shade400;
                     },
@@ -187,24 +187,35 @@ class PanelStatusTable extends GetView<DashboardController> {
                       child: ConstrainedBox(
                         constraints: BoxConstraints(minWidth: constraint.maxWidth),
                         child: DataTable(
+
                           columnSpacing: 32,
                           headingRowHeight: 48,
                           dataRowHeight: 46,
                           columns: const [
-                            DataColumn(label: Text("پنل")),
-                            DataColumn(label: Text("تابش خورشیدی")),
-                            DataColumn(label: Text("ولتاژ")),
-                            DataColumn(label: Text("جریان")),
+                            DataColumn(label: Text("وضعیت")),
+                            DataColumn(label: Text("استرینگ")),
+                            DataColumn(label: Text("میزان تابش در هر استرینگ")),
+                            DataColumn(label: Text("ولتاژ استرینگ")),
+                            DataColumn(label: Text("جریان استرینگ")),
                           ],
                           rows: controller.panels.map((panel) {
                             final isSelected =
                                 controller.selectedPanelId.value == panel.id;
+                            print(controller.selectedPanelId.value);
 
                             return DataRow(
                               selected: isSelected,
-                              onSelectChanged: (_) =>
+                              onSelectChanged: (selected) =>
                                   controller.selectPanel(panel.id),
                               cells: [
+
+                                DataCell(
+                                  Switch(
+                                    value: false,
+                                    onChanged: (val){},
+                                  ),
+                                ),
+
                                 DataCell(Text(panel.id.toString())),
                                 DataCell(Text("${panel.radiance} kW/m²")),
                                 DataCell(Text("${panel.voltage} V")),

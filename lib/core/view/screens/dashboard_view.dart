@@ -30,11 +30,14 @@ class DashboardPage extends GetView<DashboardController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(AppConstants.logo, width: context.width / 14,),
-                          SizedBox(width: 24,),
+                          Image.asset(AppConstants.logo, width: context.width / 14),
+                          SizedBox(width: 24),
                           Column(
                             children: [
-                              const Text("نمای کلی", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                              const Text(
+                                "نمای کلی",
+                                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                              ),
                               const SizedBox(height: 4),
                               const Text("خلاصه وضعیت سیستم"),
                             ],
@@ -50,12 +53,16 @@ class DashboardPage extends GetView<DashboardController> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                           elevation: 6,
                         ),
-                        child: Text('هیت مپ', style: TextStyle(color: CustomAppColors.backgroundColor),),
+                        child: Text('هیت مپ', style: TextStyle(color: CustomAppColors.backgroundColor)),
                       ),
                     ],
                   ),
                   const SizedBox(height: 50),
+                  const SizedBox(height: 32),
+                  const WeatherOverviewCard(),
+                  const SizedBox(height: 48),
                   TopCards(),
+
                   const SizedBox(height: 32),
 
                   /// TABLE
@@ -111,6 +118,92 @@ class TopCards extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class WeatherOverviewCard extends GetView<DashboardController> {
+  const WeatherOverviewCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            CustomAppColors.secondaryColor.withOpacity(0.8),
+            CustomAppColors.secondaryColor.withOpacity(0.9),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(blurRadius: 10, color: Colors.black.withOpacity(0.1), offset: const Offset(0, 8)),
+        ],
+      ),
+      child: Obx(() {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            /// TEXT
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "وضعیت آب‌وهوا",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                SizedBox(height: 6),
+                Text("داده‌های لحظه‌ای محیط", style: TextStyle(color: Colors.white70)),
+              ],
+            ),
+
+            /// VALUES
+            Row(
+              children: [
+                _WeatherValue(
+                  icon: Icons.thermostat,
+                  value: "${controller.temperature.value}°C",
+                  label: "دما",
+                ),
+                const SizedBox(width: 32),
+                _WeatherValue(icon: Icons.water_drop, value: "${controller.humidity.value}%", label: "رطوبت"),
+              ],
+            ),
+          ],
+        );
+      }),
+    );
+  }
+}
+
+class _WeatherValue extends StatelessWidget {
+  final IconData icon;
+  final String value;
+  final String label;
+
+  const _WeatherValue({required this.icon, required this.value, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 40, color: Colors.white),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(label, style: const TextStyle(color: Colors.white70)),
+          ],
+        ),
+      ],
     );
   }
 }

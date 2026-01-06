@@ -28,7 +28,7 @@ class PanelOverviewPage extends StatelessWidget {
             children: [
               /// Title
               const Text(
-                'نمای کلی پنل‌ها',
+                'نمای کلی استرینگ‌ها',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)
               ),
               const SizedBox(height: 32),
@@ -74,12 +74,12 @@ class PanelOverviewPage extends StatelessWidget {
                         children: const [
                           LegendItem(
                             color: Colors.green,
-                            text: 'پنل فعال',
+                            text: 'استرینگ فعال',
                           ),
                           SizedBox(width: 20),
                           LegendItem(
                             color: Colors.red,
-                            text: 'پنل غیرفعال',
+                            text: 'استرینگ غیرفعال',
                           ),
                         ],
                       )
