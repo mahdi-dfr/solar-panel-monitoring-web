@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 import 'package:solar_web/constants/constant.dart';
-import 'package:solar_web/core/contrroller/login_controller.dart';
+
+import '../../controller/login_controller.dart';
 
 class SolarLoginPage extends GetView<LoginController> {
   const SolarLoginPage({super.key});

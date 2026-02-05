@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
-import 'package:solar_web/core/contrroller/dashboard_controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../../controller/dashboard_controller.dart';
 
 class SolarRadianceCard extends GetView<DashboardController> {
   const SolarRadianceCard({super.key});

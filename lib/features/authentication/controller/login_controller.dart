@@ -1,7 +1,8 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:solar_web/core/view/screens/dashboard_view.dart';
+
+import '../../dashboard/view/screens/dashboard_view.dart';
 
 class LoginController extends GetxController
     with GetSingleTickerProviderStateMixin {

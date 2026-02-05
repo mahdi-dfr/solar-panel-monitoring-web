@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import 'package:solar_web/core/contrroller/dashboard_controller.dart';
-import 'package:solar_web/core/contrroller/login_controller.dart';
 
-import '../core/view/screens/login_screen.dart';
+import '../features/authentication/controller/login_controller.dart';
+import '../features/dashboard/controller/dashboard_controller.dart';
 
 class AppBindings extends Bindings{
   @override

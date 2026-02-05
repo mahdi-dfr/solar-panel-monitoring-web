@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/constant.dart';
-import 'package:solar_web/core/contrroller/dashboard_controller.dart';
-import 'package:solar_web/core/view/widgets/widgets.dart';
 
-import '../../../constants/app_colors.dart';
-import 'hitmap_screen.dart';
+import '../../../../constants/app_colors.dart';
+import '../../../hitmap/view/screens/hitmap_screen.dart';
+import '../../controller/dashboard_controller.dart';
+import '../widgets/widgets.dart';
 
 class DashboardPage extends GetView<DashboardController> {
   const DashboardPage({super.key});

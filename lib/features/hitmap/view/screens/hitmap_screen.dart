@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 
-import '../../model/hitmap_model.dart';
+import '../../data/mode/hitmap_model.dart';
 
 class PanelOverviewPage extends StatelessWidget {
   PanelOverviewPage({super.key});

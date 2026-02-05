@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:solar_web/core/model/dashboard_model.dart';
+
+import '../data/mode/dashboard_model.dart';
 
 class DashboardController extends GetxController {
   final selectedPanelId = 1.obs;
