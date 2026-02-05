@@ -2,7 +2,9 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../constants/data_state.dart';
 import '../../dashboard/view/screens/dashboard_view.dart';
+import '../data/repository/auth_repository.dart';
 
 class LoginController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -10,8 +12,13 @@ class LoginController extends GetxController
   late final Animation<double> fadeAnimation;
   late final Animation<Offset> slideAnimation;
 
+  final AuthRepository _repository;
+
+  LoginController(this._repository);
+
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -48,19 +55,35 @@ class LoginController extends GetxController
     super.onClose();
   }
 
-  void login() {
+  Future<void> login() async {
+    isLoading.value = true;
     final username = usernameController.text.trim();
     final password = passwordController.text.trim();
 
-    if (username.isEmpty || password.isEmpty) {
+    if (username.isNotEmpty && password.isNotEmpty) {
+
+      DataState dataState = await _repository.loginUser(username, password);
+      if(dataState is DataSuccess){
+        Get.offAll(DashboardPage());
+        isLoading.value = false;
+      }else{
+        isLoading.value = false;
+        Get.snackbar(
+          'خطا',
+          'مشکلی پیش آمده است',
+          snackPosition: SnackPosition.TOP,
+        );
+      }
+
+    }else{
+      isLoading.value = false;
       Get.snackbar(
         'خطا',
         'لطفا نام کاربری و رمز عبور را وارد کنید',
         snackPosition: SnackPosition.TOP,
       );
-      return;
     }
 
-    Get.offAll(DashboardPage());
+
   }
 }

@@ -29,37 +29,37 @@ class SolarLoginPage extends GetView<LoginController> {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.all(32),
                   decoration: _cardDecoration(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 24),
-                      Image.asset(AppConstants.logo, width: context.width / 10,),
-                      const SizedBox(height: 12),
-                      Text(
-                        'مانیتورینگ پنل های خورشیدی',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                  child: Obx((){
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 24),
+                        Image.asset(AppConstants.logo, width: context.width / 10),
+                        const SizedBox(height: 12),
+                        Text(
+                          'مانیتورینگ پنل های خورشیدی',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      _InputField(
-                        controller: controller.usernameController,
-                        label: 'نام کاربری',
-                        icon: Icons.person_outline,
-                      ),
-                      const SizedBox(height: 16),
-                      _InputField(
-                        controller: controller.passwordController,
-                        label: 'رمز عبور',
-                        icon: Icons.lock_outline,
-                        obscure: true,
-                      ),
-                      const SizedBox(height: 28),
-                      _LoginButton(onTap: controller.login),
-                    ],
-                  ),
+                        const SizedBox(height: 24),
+                        _InputField(
+                          controller: controller.usernameController,
+                          label: 'نام کاربری',
+                          icon: Icons.person_outline,
+                        ),
+                        const SizedBox(height: 16),
+                        _InputField(
+                          controller: controller.passwordController,
+                          label: 'رمز عبور',
+                          icon: Icons.lock_outline,
+                          obscure: true,
+                        ),
+                        const SizedBox(height: 28),
+                        controller.isLoading.value
+                            ? CircularProgressIndicator()
+                            : _LoginButton(onTap: controller.login),
+                      ],
+                    );
+                  })
                 ),
               ),
             ),
