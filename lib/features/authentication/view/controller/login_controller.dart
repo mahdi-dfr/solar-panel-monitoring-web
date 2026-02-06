@@ -45,28 +45,18 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
     super.onClose();
   }
 
-  Future<void> login() async {
+  Future<DataState<String>> login() async {
     isLoading.value = true;
 
     final result = await _useCase(
-      LoginParamsModel(
-        username: usernameController.text,
-        password: passwordController.text,
-      ),
+      LoginParamsModel(username: usernameController.text, password: passwordController.text),
     );
 
     isLoading.value = false;
 
     if (result is DataSuccess<AuthEntity>) {
-      Get.offAll(DashboardPage());
-    } else if (result is DataFailed<AuthEntity>) {
-
-      Get.snackbar(
-        "خطا",
-        result.error ?? '',
-        snackPosition: SnackPosition.TOP,
-      );
+      return DataSuccess('');
     }
+    return DataFailed(result.error ?? '');
   }
-
 }

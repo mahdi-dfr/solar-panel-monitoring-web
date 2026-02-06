@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 import 'package:solar_web/constants/constant.dart';
+import 'package:solar_web/constants/data_state.dart';
 
+import '../../../dashboard/view/screens/dashboard_view.dart';
 import '../controller/login_controller.dart';
 
 
@@ -57,7 +59,19 @@ class SolarLoginPage extends GetView<LoginController> {
                         const SizedBox(height: 28),
                         controller.isLoading.value
                             ? CircularProgressIndicator()
-                            : _LoginButton(onTap:  controller.login),
+                            : _LoginButton(onTap:  (){
+                              controller.login().then((value){
+                                if(value is DataSuccess){
+                                  Get.offAll(DashboardPage());
+                                }else{
+                                  Get.snackbar(
+                                    "خطا",
+                                    value.error ?? '',
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                }
+                              });
+                        }),
                       ],
                     );
                   })
@@ -111,7 +125,7 @@ class _InputField extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final Function() onTap;
 
   const _LoginButton({required this.onTap});
 
