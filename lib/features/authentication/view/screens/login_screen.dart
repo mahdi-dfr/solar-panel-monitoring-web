@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 import 'package:solar_web/constants/constant.dart';
 
-import '../../controller/login_controller.dart';
+import '../controller/login_controller.dart';
+
 
 class SolarLoginPage extends GetView<LoginController> {
   const SolarLoginPage({super.key});
@@ -56,7 +57,7 @@ class SolarLoginPage extends GetView<LoginController> {
                         const SizedBox(height: 28),
                         controller.isLoading.value
                             ? CircularProgressIndicator()
-                            : _LoginButton(onTap: controller.login),
+                            : _LoginButton(onTap:  controller.login),
                       ],
                     );
                   })

@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:solar_web/constants/data_state.dart';
-import 'package:solar_web/features/authentication/data/mode/auth_model.dart';
-import 'package:solar_web/features/authentication/data/repository/auth_repository.dart';
+import 'package:solar_web/features/authentication/data/model/auth_model.dart';
+import 'package:solar_web/features/authentication/usecase/repository/auth_repository.dart';
 
+import '../../usecase/entities/auth_entity.dart';
 import '../api_service/auth_api_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -11,17 +12,24 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._apiService);
 
   @override
-  Future<DataState<AuthModel>> loginUser(String username, String password) async {
-    var response = await _apiService.loginUser({'username': username, 'password': password});
-    if (response is! DioException) {
+  Future<DataState<AuthEntity>> loginUser(String username, String password) async {
+    try {
+      final response = await _apiService.loginUser({
+        'username': username,
+        'password': password,
+      });
+
       if (response.statusCode == 200) {
-        AuthModel entity = AuthModel.fromJson(response.data);
-        return DataSuccess(entity);
-      } else {
-        return DataFailed(response.message);
+        AuthEntity entity = AuthModel.fromJson(response.data);
+        return DataSuccess<AuthEntity>(entity);
       }
-    } else {
-      return DataFailed(response.response.toString());
+
+      return DataFailed<AuthEntity>(ServerFailure() as String);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return DataFailed(e.response!.data['detail']);
+      }
+      return DataFailed('خطایی رخ داده است!');
     }
   }
 }
