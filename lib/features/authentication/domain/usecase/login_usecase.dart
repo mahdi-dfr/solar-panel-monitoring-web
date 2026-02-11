@@ -1,9 +1,9 @@
 import 'package:solar_web/constants/usecase.dart';
-import 'package:solar_web/features/authentication/usecase/entities/auth_entity.dart';
-import 'package:solar_web/features/authentication/usecase/repository/auth_repository.dart';
 
 import '../../../../constants/data_state.dart';
 import '../../data/model/LoginParamsModel.dart';
+import '../entities/auth_entity.dart';
+import '../repository/auth_repository.dart';
 
 class LoginUseCase extends UseCase<AuthEntity, LoginParamsModel> {
   final AuthRepository _repository;

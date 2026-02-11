@@ -1,5 +1,6 @@
 import 'package:solar_web/constants/data_state.dart';
-import 'package:solar_web/features/authentication/usecase/entities/auth_entity.dart';
+
+import '../entities/auth_entity.dart';
 
 abstract class AuthRepository{
 

@@ -4,7 +4,7 @@ import 'package:solar_web/constants/constant.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../../../hitmap/view/screens/hitmap_screen.dart';
-import '../../controller/dashboard_controller.dart';
+import '../controller/dashboard_controller.dart';
 import '../widgets/widgets.dart';
 
 class DashboardPage extends GetView<DashboardController> {

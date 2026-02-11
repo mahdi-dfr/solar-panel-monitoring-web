@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../controller/dashboard_controller.dart';
+import '../controller/dashboard_controller.dart';
+
 
 class SolarRadianceCard extends GetView<DashboardController> {
   const SolarRadianceCard({super.key});

@@ -1,4 +1,5 @@
-import 'package:solar_web/features/authentication/usecase/entities/auth_entity.dart';
+
+import '../../domain/entities/auth_entity.dart';
 
 class AuthModel extends AuthEntity {
   AuthModel({required super.access, required super.refresh});

@@ -6,6 +6,7 @@ class UrlConstant{
 
 
   static const String login = 'api/user/auth/token/';
+  static const String project = 'api/project/projects/';
 
 
 }

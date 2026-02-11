@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:solar_web/features/authentication/data/model/LoginParamsModel.dart';
 
 import '../../../../constants/data_state.dart';
-import '../../../dashboard/view/screens/dashboard_view.dart';
-import '../../usecase/entities/auth_entity.dart';
-import '../../usecase/usecase/login_usecase.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/usecase/login_usecase.dart';
 
 class LoginController extends GetxController with GetSingleTickerProviderStateMixin {
   late final AnimationController animationController;

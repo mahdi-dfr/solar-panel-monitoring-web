@@ -4,7 +4,7 @@ import 'package:solar_web/constants/app_colors.dart';
 import 'package:solar_web/constants/constant.dart';
 import 'package:solar_web/constants/data_state.dart';
 
-import '../../../dashboard/view/screens/dashboard_view.dart';
+import '../../../dashboard/presentation/screens/dashboard_view.dart';
 import '../controller/login_controller.dart';
 
 

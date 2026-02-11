@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:solar_web/constants/data_state.dart';
 import 'package:solar_web/features/authentication/data/model/auth_model.dart';
-import 'package:solar_web/features/authentication/usecase/repository/auth_repository.dart';
 
-import '../../usecase/entities/auth_entity.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/repository/auth_repository.dart';
 import '../api_service/auth_api_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../data/mode/dashboard_model.dart';
+import '../../data/model/dashboard_model.dart';
 
 class DashboardController extends GetxController {
   final selectedPanelId = 1.obs;
