@@ -17,8 +17,10 @@ class ProjectListEntity {
 
 class ProjectEntity {
   final int? id;
-  final CityEntity? city;
+  final String? city;
   final String? projectName;
+  final String? latitude;
+  final String? longitude;
   final String? projectAddress;
   final String? createAt;
   final String? updateAt;
@@ -30,6 +32,8 @@ class ProjectEntity {
     this.id,
     this.city,
     this.projectName,
+    this.latitude,
+    this.longitude,
     this.projectAddress,
     this.createAt,
     this.updateAt,
@@ -38,17 +42,3 @@ class ProjectEntity {
   });
 }
 
-class CityEntity {
-  final int? id;
-  final String? title;
-  final String? code;
-  final int? province;
-
-
-  const CityEntity({
-    this.id,
-    this.title,
-    this.code,
-    this.province,
-  });
-}

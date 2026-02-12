@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:solar_web/constants/app_bindings.dart';
+import 'package:solar_web/constants/constant.dart';
 
 import 'features/authentication/view/screens/login_screen.dart';
 import 'features/dashboard/presentation/screens/projects_screen.dart';
@@ -23,8 +24,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Shabnam'),
       initialBinding: AppBindings(),
-      // home:  SolarLoginPage(),
-      home:  ProjectsListPage(),
+      home: GetStorage().read(AppConstants.accessToken) == null
+          ? SolarLoginPage() : ProjectsListPage(),
+      // home:  ProjectsListPage(),
       locale: const Locale('fa', 'IR'),
     );
   }

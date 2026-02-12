@@ -21,8 +21,10 @@ class ProjectListModel extends ProjectListEntity {
 class ProjectModel extends ProjectEntity {
   const ProjectModel({
     super.id,
-    CityModel? city,
+    String? city,
     super.projectName,
+    super.latitude,
+    super.longitude,
     super.projectAddress,
     super.createAt,
     super.updateAt,
@@ -33,7 +35,7 @@ class ProjectModel extends ProjectEntity {
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
     id: json['id'],
-    city: json['city'] != null ? CityModel.fromJson(json['city']) : null,
+    city: json['city'],
     projectName: json['project_name'],
     projectAddress: json['project_address'],
     createAt: json['create_at'],
@@ -43,19 +45,4 @@ class ProjectModel extends ProjectEntity {
   );
 }
 
-class CityModel extends CityEntity {
-  const CityModel({
-    super.id,
-    super.title,
-    super.code,
-    super.province,
-  });
 
-
-  factory CityModel.fromJson(Map<String, dynamic> json) => CityModel(
-    id: json['id'],
-    title: json['title'],
-    code: json['code'],
-    province: json['province'],
-  );
-}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../controller/project_controller.dart';
@@ -126,7 +127,7 @@ class _ListProjectsView extends GetView<ProjectsController> {
 
 // ---------------- PROJECT CARD ----------------
 class _ProjectCard extends GetView<ProjectsController> {
-  final ProjectModel project;
+  final ProjectEntity project;
 
   const _ProjectCard({required this.project});
 
@@ -171,7 +172,7 @@ class _ProjectCard extends GetView<ProjectsController> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    project.name,
+                    project.projectName ?? '',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -189,7 +190,7 @@ class _ProjectCard extends GetView<ProjectsController> {
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    project.address,
+                    project.projectAddress ?? '',
                     style: const TextStyle(
                       fontSize: 13,
                       color: Colors.black54,

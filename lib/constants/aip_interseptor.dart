@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:solar_web/constants/constant.dart';
 
-class AuthApiInterceptor extends Interceptor{
+class ApiInterceptor extends Interceptor{
 
   String? myPath;
 
@@ -10,6 +12,13 @@ class AuthApiInterceptor extends Interceptor{
     super.onRequest(options, handler);
 
     /// give token to header
+    var access = GetStorage().read(AppConstants.accessToken);
+    print(access);
+
+    if(!options.path.contains('token')){
+      options.headers["authorization"] = 'Bearer $access';
+    }
+
 
 
     print('Request ======>' + options.path);

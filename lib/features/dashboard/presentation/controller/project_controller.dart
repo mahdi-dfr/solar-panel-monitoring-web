@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
 import 'package:solar_web/features/dashboard/domain/usecase/project_usecase.dart';
 
@@ -18,17 +19,18 @@ class ProjectsController extends GetxController {
     super.onInit();
   }
 
-  final projects = <ProjectModel>[
-    ProjectModel(name: 'Solar Plant - Tehran', address: 'Tehran, District 22'),
-    ProjectModel(name: 'Solar Farm - Isfahan', address: 'Isfahan Industrial Zone'),
-    ProjectModel(name: 'Solar Panels - Shiraz', address: 'Shiraz, Sadra City'),
-    ProjectModel(name: 'Factory Roof Project', address: 'Karaj Industrial Area'),
-  ].obs;
+  final RxList<ProjectEntity> projects = RxList();
 
   Future<DataState<String>> getProjects() async {
     isLoading.value = true;
 
     final result = await _useCase.call(null);
+
+    print(result.data!);
+
+    projects.value = result.data!.results!;
+    print(projects.value);
+
     print(result);
 
     isLoading.value = false;

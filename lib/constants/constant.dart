@@ -3,4 +3,8 @@ class AppConstants{
 
   static String loginBackground = 'assets/images/panel1.jpg';
   static String logo = 'assets/images/logo.png';
+
+  /// get storage keys
+  static String accessToken = 'access_token';
+  static String refreshToken = 'refresh_token';
 }
