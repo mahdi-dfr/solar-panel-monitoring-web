@@ -5,6 +5,7 @@ import 'package:solar_web/features/dashboard/presentation/controller/dashboard_c
 import 'package:solar_web/features/dashboard/presentation/screens/dashboard_view.dart';
 
 import '../../../../constants/app_colors.dart';
+import '../../../../constants/route_helper.dart';
 import '../controller/project_controller.dart';
 
 class ProjectsListPage extends GetView<ProjectsController> {
@@ -139,8 +140,10 @@ class _ProjectCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         _dashboardController.projectId = _projectController.projects[index].id ?? -1;
-        _dashboardController.getPanels(_dashboardController.projectId);
-        Get.to(DashboardPage());
+        _dashboardController.getPanels(_dashboardController.projectId).then((value){
+          _dashboardController.loadWeather(_dashboardController.projectId);
+        });
+        Get.toNamed(RouteHelper.dashboard);
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(

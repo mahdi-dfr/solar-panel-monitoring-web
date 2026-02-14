@@ -7,9 +7,11 @@ import 'package:solar_web/features/dashboard/data/model/project_model.dart';
 import 'package:solar_web/features/dashboard/domain/entities/panels_entity.dart';
 import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
 
+import '../../domain/entities/weather_entity.dart';
 import '../../domain/repository/projects_repository.dart';
 import '../api_service/project_api_service.dart';
 import '../model/panel_model.dart';
+import '../model/weather_model.dart';
 
 class ProjectRepositoryImpl extends ProjectRepository {
   final ProjectApiService _apiService;
@@ -58,6 +60,34 @@ class ProjectRepositoryImpl extends ProjectRepository {
       }
 
       return DataFailed<PanelListEntity>('خطای سرور رخ داده است');
+    } on DioException catch (e) {
+
+      if (e.response != null && e.response!.statusCode == 401) {
+        return DataFailed(e.response!.data['detail']);
+      }
+
+      return DataFailed('خطایی رخ داده است!');
+    }
+  }
+
+  @override
+  Future<DataState<WeatherEntity>> getWeather(int projectId) async {
+
+    try {
+      final response = await _apiService.getWeather(projectId);
+
+      if (response is! DioException) {
+        if (response.statusCode == 200) {
+
+          WeatherEntity entity =
+          WeatherModel.fromJson(response.data);
+
+          return DataSuccess<WeatherEntity>(entity);
+        }
+      }
+
+      return DataFailed<WeatherEntity>('خطای سرور رخ داده است');
+
     } on DioException catch (e) {
 
       if (e.response != null && e.response!.statusCode == 401) {

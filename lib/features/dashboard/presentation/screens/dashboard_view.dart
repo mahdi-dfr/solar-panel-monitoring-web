@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/constant.dart';
+import 'package:solar_web/constants/route_helper.dart';
 
 import '../../../../constants/app_colors.dart';
-import '../../../hitmap/view/screens/hitmap_screen.dart';
+import 'hitmap_screen.dart';
 import '../controller/dashboard_controller.dart';
 import '../widgets/widgets.dart';
 
@@ -17,63 +18,68 @@ class DashboardPage extends GetView<DashboardController> {
         return Scaffold(
           backgroundColor: CustomAppColors.backgroundColor,
           body: Obx(() {
-            return Padding(
-              padding: const EdgeInsets.all(24),
-              child: controller.isLoading.value
-                  ? Center(child: CircularProgressIndicator())
-                  : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(AppConstants.logo, width: context.width / 14),
-                            SizedBox(width: 24),
-                            Column(
-                              children: [
-                                const Text(
-                                  "نمای کلی",
-                                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 4),
-                                const Text("خلاصه وضعیت سیستم"),
-                              ],
-                            ),
-                          ],
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.to(PanelOverviewPage());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomAppColors.secondaryColor,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                            elevation: 6,
+            return RefreshIndicator(
+              onRefresh: () async {
+                await controller.getPanels(controller.projectId);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(AppConstants.logo, width: context.width / 14),
+                              SizedBox(width: 24),
+                              Column(
+                                children: [
+                                  const Text(
+                                    "نمای کلی",
+                                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  const Text("خلاصه وضعیت سیستم"),
+                                ],
+                              ),
+                            ],
                           ),
-                          child: Text('هیت مپ', style: TextStyle(color: CustomAppColors.backgroundColor)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 50),
-                    const SizedBox(height: 32),
-                    const WeatherOverviewCard(),
-                    const SizedBox(height: 48),
-                    TopCards(),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.toNamed(RouteHelper.hitmap);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CustomAppColors.secondaryColor,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              elevation: 6,
+                            ),
+                            child: Text('هیت مپ', style: TextStyle(color: CustomAppColors.backgroundColor)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 50),
+                      const SizedBox(height: 32),
+                      const WeatherOverviewCard(),
+                      const SizedBox(height: 48),
+                      TopCards(),
 
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 32),
 
-                    /// TABLE
-                    const PanelStatusTable(),
-                  ],
+                      /// TABLE
+                      const PanelStatusTable(),
+                    ],
+                  ),
                 ),
-              ),
 
+              ),
             );
           }
           ),

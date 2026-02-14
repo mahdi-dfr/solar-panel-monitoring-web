@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
+import 'package:solar_web/features/dashboard/data/model/PanelUiModel.dart';
+import 'package:solar_web/features/dashboard/presentation/controller/dashboard_controller.dart';
 
-import '../../data/mode/hitmap_model.dart';
+import '../../../hitmap/data/mode/hitmap_model.dart';
 
 class PanelOverviewPage extends StatelessWidget {
   PanelOverviewPage({super.key});
 
-  final List<PanelHitMapItem> panels = List.generate(
-    40,
-        (index) => PanelHitMapItem(
-      id: index + 1,
-      voltage: 'v ${70 + (index % 10)}',
-      isActive: index % 7 != 0, // چندتا قرمز برای تست
-    ),
-  );
+  final _controller = Get.find<DashboardController>();
+
+  // final List<PanelHitMapItem> panels = List.generate(
+  //   40,
+  //       (index) => PanelHitMapItem(
+  //     id: index + 1,
+  //     voltage: 'v ${70 + (index % 10)}',
+  //     isActive: index % 7 != 0,
+  //   ),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,7 @@ class PanelOverviewPage extends StatelessWidget {
                       /// Grid
                       GridView.builder(
                         shrinkWrap: true,
-                        itemCount: panels.length,
+                        itemCount: _controller.panels.length,
                         gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: context.width > 900 ? 10 : 5,
                           crossAxisSpacing: 6,
@@ -63,7 +67,7 @@ class PanelOverviewPage extends StatelessWidget {
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (context, index) {
-                          return PanelBox(item: panels[index]);
+                          return PanelBox(item: _controller.panels[index]);
                         },
                       ),
 
@@ -97,7 +101,7 @@ class PanelOverviewPage extends StatelessWidget {
 
 
 class PanelBox extends StatelessWidget {
-  final PanelHitMapItem item;
+  final PanelUiModel item;
 
   const PanelBox({super.key, required this.item});
 
@@ -105,7 +109,7 @@ class PanelBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: item.isActive ? Colors.green : Colors.red,
+        color: item.isOn ? Colors.green : Colors.red,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(

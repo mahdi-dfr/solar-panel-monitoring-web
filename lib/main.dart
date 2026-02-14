@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:solar_web/constants/app_bindings.dart';
 import 'package:solar_web/constants/constant.dart';
 
+import 'constants/route_helper.dart';
 import 'features/authentication/view/screens/login_screen.dart';
 import 'features/dashboard/presentation/screens/projects_screen.dart';
 
@@ -24,8 +25,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Shabnam'),
       initialBinding: AppBindings(),
-      home: GetStorage().read(AppConstants.accessToken) == null
-          ? SolarLoginPage() : ProjectsListPage(),
+      getPages: RouteHelper.routes,
+      initialRoute: GetStorage().read(AppConstants.accessToken) == null
+            ? RouteHelper.login : RouteHelper.project,
+      // home: GetStorage().read(AppConstants.accessToken) == null
+      //     ? SolarLoginPage() : ProjectsListPage(),
       // home:  ProjectsListPage(),
       locale: const Locale('fa', 'IR'),
     );

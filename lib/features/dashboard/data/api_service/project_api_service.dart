@@ -18,17 +18,6 @@ class ProjectApiService {
     }
   }
 
-  Future<dynamic> getWeather() async {
-    _dio.interceptors.add(ApiInterceptor());
-    try {
-      final response = await _dio.get(
-        UrlConstant.baseUrl + UrlConstant.project,
-      );
-      return response;
-    } catch(e){
-      return e;
-    }
-  }
 
   Future<dynamic> getPanels(int projectId) async {
     _dio.interceptors.add(ApiInterceptor());
@@ -39,13 +28,27 @@ class ProjectApiService {
           "project_id": projectId,
         },
       );
-      print('11111');
-      print(response);
       return response;
     } catch (e) {
       return e;
     }
   }
+
+  Future<dynamic> getWeather(int projectId) async {
+    _dio.interceptors.add(ApiInterceptor());
+    try {
+      final response = await _dio.get(
+        UrlConstant.baseUrl + UrlConstant.weather,
+        queryParameters: {
+          "project_id": projectId,
+        },
+      );
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
 
 }
 
