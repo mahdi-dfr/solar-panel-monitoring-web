@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:solar_web/constants/constant.dart';
 import 'package:solar_web/constants/data_state.dart';
 import 'package:solar_web/features/authentication/data/model/auth_model.dart';
 import 'package:solar_web/features/dashboard/data/model/project_model.dart';
+import 'package:solar_web/features/dashboard/domain/entities/panels_entity.dart';
 import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
 
-import '../../domain/repository/auth_repository.dart';
+import '../../domain/repository/projects_repository.dart';
 import '../api_service/project_api_service.dart';
+import '../model/panel_model.dart';
 
 class ProjectRepositoryImpl extends ProjectRepository {
   final ProjectApiService _apiService;
@@ -22,7 +26,6 @@ class ProjectRepositoryImpl extends ProjectRepository {
       if(response is! DioException){
         if (response.statusCode == 200) {
           ProjectListEntity entity = ProjectListModel.fromJson(response.data);
-          print(entity);
           return DataSuccess<ProjectListEntity>(entity);
         }
       }
@@ -35,5 +38,33 @@ class ProjectRepositoryImpl extends ProjectRepository {
       return DataFailed('خطایی رخ داده است!');
     }
 
+  }
+
+  @override
+  Future<DataState<PanelListEntity>> getPanels(int projectId) async {
+
+    try {
+      final response = await _apiService.getPanels(projectId);
+
+      if (response is! DioException) {
+        if (response.statusCode == 200) {
+          PanelListEntity entity =
+          PanelListModel.fromJson(response.data);
+
+          print('2222');
+          print(response);
+          return DataSuccess<PanelListEntity>(entity);
+        }
+      }
+
+      return DataFailed<PanelListEntity>('خطای سرور رخ داده است');
+    } on DioException catch (e) {
+
+      if (e.response != null && e.response!.statusCode == 401) {
+        return DataFailed(e.response!.data['detail']);
+      }
+
+      return DataFailed('خطایی رخ داده است!');
+    }
   }
 }

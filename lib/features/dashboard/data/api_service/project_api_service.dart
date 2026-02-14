@@ -12,12 +12,8 @@ class ProjectApiService {
       final response = await _dio.get(
         UrlConstant.baseUrl + UrlConstant.project,
       );
-      print('1111');
-      print(response);
       return response;
     } catch(e){
-      print('2222');
-      print(e);
       return e;
     }
   }
@@ -28,11 +24,28 @@ class ProjectApiService {
       final response = await _dio.get(
         UrlConstant.baseUrl + UrlConstant.project,
       );
-      print(response);
       return response;
     } catch(e){
       return e;
     }
   }
+
+  Future<dynamic> getPanels(int projectId) async {
+    _dio.interceptors.add(ApiInterceptor());
+    try {
+      final response = await _dio.get(
+        UrlConstant.baseUrl + UrlConstant.panel,
+        queryParameters: {
+          "project_id": projectId,
+        },
+      );
+      print('11111');
+      print(response);
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
 }
 

@@ -7,4 +7,5 @@ class AppConstants{
   /// get storage keys
   static String accessToken = 'access_token';
   static String refreshToken = 'refresh_token';
+  static String projectID = 'project_id';
 }

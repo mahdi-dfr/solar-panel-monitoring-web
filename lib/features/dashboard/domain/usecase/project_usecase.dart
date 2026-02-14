@@ -2,7 +2,7 @@ import 'package:solar_web/constants/usecase.dart';
 
 import '../../../../constants/data_state.dart';
 import '../entities/project_entity.dart';
-import '../repository/auth_repository.dart';
+import '../repository/projects_repository.dart';
 
 class ProjectUseCase extends UseCase<ProjectListEntity, void> {
   final ProjectRepository _repository;

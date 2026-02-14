@@ -5,7 +5,6 @@ import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart
 import '../../../../constants/app_colors.dart';
 import '../controller/project_controller.dart';
 
-// ---------------- VIEW ----------------
 class ProjectsListPage extends GetView<ProjectsController> {
   const ProjectsListPage({super.key});
 
@@ -51,7 +50,6 @@ class ProjectsListPage extends GetView<ProjectsController> {
   }
 }
 
-// ---------------- HEADER ----------------
 class _HeaderSection extends StatelessWidget {
   const _HeaderSection();
 
@@ -80,7 +78,6 @@ class _HeaderSection extends StatelessWidget {
   }
 }
 
-// ---------------- GRID VIEW (WEB/TABLET) ----------------
 class _GridProjectsView extends GetView<ProjectsController> {
   final int columns;
 
@@ -99,14 +96,13 @@ class _GridProjectsView extends GetView<ProjectsController> {
         ),
         itemBuilder: (context, index) {
           final project = controller.projects[index];
-          return _ProjectCard(project: project);
+          return _ProjectCard(project: project, index);
         },
       ),
     );
   }
 }
 
-// ---------------- LIST VIEW (MOBILE) ----------------
 class _ListProjectsView extends GetView<ProjectsController> {
   const _ListProjectsView();
 
@@ -118,7 +114,7 @@ class _ListProjectsView extends GetView<ProjectsController> {
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final project = controller.projects[index];
-          return _ProjectCard(project: project);
+          return _ProjectCard(project: project, index);
         },
       ),
     );
@@ -129,12 +125,17 @@ class _ListProjectsView extends GetView<ProjectsController> {
 class _ProjectCard extends GetView<ProjectsController> {
   final ProjectEntity project;
 
-  const _ProjectCard({required this.project});
+  const _ProjectCard(this.index, {required this.project});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => controller.getProjects(),
+      onTap: () {
+        controller.projectId = controller.projects[index].id ?? -1;
+         controller.getPanels(controller.projectId);
+      },
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(20),
