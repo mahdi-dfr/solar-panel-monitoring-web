@@ -30,8 +30,8 @@ class AppBindings extends Bindings {
     Get.put(PanelUseCase(Get.find<ProjectRepository>()));
 
     /// controllers
-    Get.put(DashboardController());
+    Get.put(DashboardController( Get.find<PanelUseCase>()));
     Get.put(LoginController(Get.find<LoginUseCase>()));
-    Get.lazyPut(()=> ProjectsController(Get.find<ProjectUseCase>(), Get.find<PanelUseCase>()));
+    Get.lazyPut(()=> ProjectsController(Get.find<ProjectUseCase>(),));
   }
 }

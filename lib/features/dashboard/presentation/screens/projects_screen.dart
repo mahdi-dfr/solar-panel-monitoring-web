@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
+import 'package:solar_web/features/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:solar_web/features/dashboard/presentation/screens/dashboard_view.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../controller/project_controller.dart';
@@ -122,19 +124,23 @@ class _ListProjectsView extends GetView<ProjectsController> {
 }
 
 // ---------------- PROJECT CARD ----------------
-class _ProjectCard extends GetView<ProjectsController> {
+class _ProjectCard extends StatelessWidget {
   final ProjectEntity project;
 
-  const _ProjectCard(this.index, {required this.project});
+  _ProjectCard(this.index, {required this.project});
 
   final int index;
+
+  final _projectController = Get.find<ProjectsController>();
+  final _dashboardController = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        controller.projectId = controller.projects[index].id ?? -1;
-         controller.getPanels(controller.projectId);
+        _dashboardController.projectId = _projectController.projects[index].id ?? -1;
+        _dashboardController.getPanels(_dashboardController.projectId);
+        Get.to(DashboardPage());
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(
