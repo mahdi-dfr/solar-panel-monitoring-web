@@ -140,9 +140,6 @@ class _ProjectCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         _dashboardController.saveProjectId(_projectController.projects[index].id ?? -1);
-        _dashboardController.getPanels(_projectController.projects[index].id??3).then((value){
-          _dashboardController.loadWeather(3);
-        });
         Get.toNamed(RouteHelper.dashboard);
       },
       borderRadius: BorderRadius.circular(16),

@@ -67,7 +67,7 @@ class DashboardPage extends StatelessWidget {
                     const SizedBox(height: 32),
                     const WeatherOverviewCard(),
                     const SizedBox(height: 48),
-                    TopCards(),
+                    // TopCards(),
 
                     const SizedBox(height: 32),
 

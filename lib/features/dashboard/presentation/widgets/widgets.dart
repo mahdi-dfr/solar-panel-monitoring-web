@@ -194,36 +194,74 @@ class PanelStatusTable extends GetView<DashboardController> {
                           headingRowHeight: 48,
                           dataRowHeight: 46,
                           columns: const [
-                            DataColumn(label: Text("وضعیت")),
-                            DataColumn(label: Text("استرینگ")),
-                            DataColumn(label: Text("میزان تابش در هر استرینگ")),
-                            DataColumn(label: Text("ولتاژ استرینگ")),
-                            DataColumn(label: Text("جریان استرینگ")),
+
+                            DataColumn(
+                              label: Text("نام استرینگ"),
+                            ),
+
+                            DataColumn(
+                              label: Text("شناسه استرینگ"),
+                            ),
+
+                            DataColumn(
+                              label: Text("ولتاژ"),
+                            ),
+
+                            DataColumn(
+                              label: Text("جریان"),
+                            ),
+
+                            DataColumn(
+                              label: Text("توان"),
+                            ),
+
+                            DataColumn(
+                              label: Text("انرژی"),
+                            ),
                           ],
-                          rows: controller.panels.map((panel) {
-                            final isSelected =
-                                controller.selectedPanelId.value == panel.id;
-                            print(controller.selectedPanelId.value);
+                          rows: controller.strings.map((item) {
 
                             return DataRow(
-                              selected: isSelected,
-                              onSelectChanged: (selected) =>
-                                  controller.selectPanel(panel.id),
+
                               cells: [
 
                                 DataCell(
-                                  Switch(
-                                    value: false,
-                                    onChanged: (val){},
+                                  Text(item.name),
+                                ),
+
+                                DataCell(
+                                  Text(
+                                    item.stringId.toString(),
                                   ),
                                 ),
 
-                                DataCell(Text(panel.id.toString())),
-                                DataCell(Text("${panel.radiance} kW/m²")),
-                                DataCell(Text("${panel.voltage} V")),
-                                DataCell(Text("${panel.current} A")),
+                                DataCell(
+                                  Text(
+                                    "${item.voltage} V",
+                                  ),
+                                ),
+
+                                DataCell(
+                                  Text(
+                                    "${item.current} A",
+                                  ),
+                                ),
+
+                                DataCell(
+                                  Text(
+                                    item.power.toString(),
+                                  ),
+                                ),
+
+                                DataCell(
+                                  Text(
+                                    item.energy.toString(),
+                                  ),
+                                ),
+
                               ],
                             );
+
                           }).toList(),
                         ),
                       ),

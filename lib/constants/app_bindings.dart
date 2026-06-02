@@ -3,6 +3,7 @@ import 'package:solar_web/features/authentication/data/api_service/auth_api_serv
 import 'package:solar_web/features/authentication/data/repository/auth_repository_impl.dart';
 import 'package:solar_web/features/dashboard/data/api_service/project_api_service.dart';
 import 'package:solar_web/features/dashboard/domain/repository/projects_repository.dart';
+import 'package:solar_web/features/dashboard/domain/usecase/dashboard_usecase.dart';
 import 'package:solar_web/features/dashboard/domain/usecase/panel_usecase.dart';
 import 'package:solar_web/features/dashboard/domain/usecase/weather_usecase.dart';
 
@@ -32,8 +33,14 @@ class AppBindings extends Bindings {
     Get.put(WeatherUseCase(Get.find<ProjectRepository>()));
 
     /// controllers
-    Get.lazyPut(()=> DashboardController( Get.find<PanelUseCase>(), Get.find<WeatherUseCase>()));
+    Get.lazyPut(
+      () => DashboardController(
+        Get.find<PanelUseCase>(),
+        Get.find<WeatherUseCase>(),
+        Get.find<DashboardUseCase>(),
+      ),
+    );
     Get.put(LoginController(Get.find<LoginUseCase>()));
-    Get.lazyPut(()=> ProjectsController(Get.find<ProjectUseCase>(),));
+    Get.lazyPut(() => ProjectsController(Get.find<ProjectUseCase>()));
   }
 }
