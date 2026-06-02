@@ -1,4 +1,3 @@
-// ---------------- PROJECT LIST ENTITY (Pagination) ----------------
 class ProjectListEntity {
   final int? count;
   final String? next;

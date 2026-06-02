@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:solar_web/constants/constant.dart';
 
 import '../../../../constants/data_state.dart';
 import '../../data/model/PanelUiModel.dart';
@@ -26,8 +28,6 @@ class DashboardController extends GetxController {
   final condition = ''.obs;
   final windSpeed = 0.0.obs;
 
-  int projectId = -1;
-
   Timer? _timer;
 
   var isLoading = false.obs;
@@ -42,9 +42,12 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
 
-    _timer = Timer.periodic(const Duration(hours: 3), (timer) {
-      loadWeather(projectId);
-    });
+    // getPanels(GetStorage().read(AppConstants.projectID)).then((value){
+    //   loadWeather(GetStorage().read(AppConstants.projectID));
+    // });
+    // _timer = Timer.periodic(const Duration(hours: 3), (timer) {
+    //   loadWeather(GetStorage().read(AppConstants.projectID));
+    // });
     super.onInit();
   }
 
@@ -59,7 +62,12 @@ class DashboardController extends GetxController {
     humidity.value = hum;
   }
 
+  saveProjectId(int projectID){
+    GetStorage().write(AppConstants.projectID, projectID);
+  }
+
   Future<void> getPanels(int projectId) async {
+    print('1111111111111223');
     isLoading.value = true;
 
     final result = await _panelUseCase.call(projectId);
@@ -77,6 +85,8 @@ class DashboardController extends GetxController {
         );
       }).toList();
     }
+
+    print(panels.value);
 
     isLoading.value = false;
   }

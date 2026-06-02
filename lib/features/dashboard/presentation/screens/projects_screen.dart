@@ -139,9 +139,9 @@ class _ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _dashboardController.projectId = _projectController.projects[index].id ?? -1;
-        _dashboardController.getPanels(_dashboardController.projectId).then((value){
-          _dashboardController.loadWeather(_dashboardController.projectId);
+        _dashboardController.saveProjectId(_projectController.projects[index].id ?? -1);
+        _dashboardController.getPanels(_projectController.projects[index].id??3).then((value){
+          _dashboardController.loadWeather(3);
         });
         Get.toNamed(RouteHelper.dashboard);
       },
@@ -193,6 +193,25 @@ class _ProjectCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                const Icon(Icons.location_city, size: 18),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    project.city ?? '',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+
             const SizedBox(height: 14),
             Row(
               children: [
