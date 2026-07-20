@@ -6,9 +6,7 @@ import 'package:solar_web/constants/constant.dart';
 
 import '../../../../constants/data_state.dart';
 import '../../data/model/PanelUiModel.dart';
-import '../../data/model/dashboard_model.dart';
-import '../../domain/entities/panels_entity.dart';
-import '../../domain/entities/string_entity.dart';
+import '../../domain/entities/live_string_entity.dart';
 import '../../domain/usecase/dashboard_usecase.dart';
 import '../../domain/usecase/panel_usecase.dart';
 import '../../domain/usecase/weather_usecase.dart';
@@ -22,8 +20,8 @@ class DashboardController extends GetxController {
   DashboardController(this._panelUseCase, this._weatherUseCase, this._useCase);
 
 
-  final RxList<StringLiveEntity> strings =
-      <StringLiveEntity>[].obs;
+  final RxList<LiveStringEntity> strings =
+      <LiveStringEntity>[].obs;
 
   final isLoading = false.obs;
 
@@ -51,10 +49,12 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
 
+    print('00000000000');
+
     loadLiveData();
 
     _timer = Timer.periodic(
-      const Duration(minutes: 5),
+       Duration(minutes: AppConstants.requestLiveDataTimer),
           (_) => loadLiveData(),
     );
 
@@ -73,8 +73,7 @@ class DashboardController extends GetxController {
 
     final result =
 
-    /// todo: اینجا مقدار ورودی تابع زیر برابر یک است ولی باید آیدی پروژه ای که انتخاب شده رو از کش لوکال بگیری و اینجا بزاری
-    await _useCase.call(1);
+    await _useCase.call(GetStorage().read(AppConstants.projectID));
 
     if(result is DataSuccess){
 

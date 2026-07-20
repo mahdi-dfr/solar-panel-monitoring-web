@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:solar_web/features/dashboard/domain/entities/project_entity.dart';
 import 'package:solar_web/features/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:solar_web/features/dashboard/presentation/screens/dashboard_view.dart';
 
 import '../../../../constants/app_colors.dart';
+import '../../../../constants/constant.dart';
 import '../../../../constants/route_helper.dart';
 import '../controller/project_controller.dart';
+import '../widgets/widgets.dart';
 
 class ProjectsListPage extends GetView<ProjectsController> {
   const ProjectsListPage({super.key});
@@ -58,24 +61,35 @@ class _HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
-          'پروژه ها',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'پروژه ها',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 6),
+            Text(
+              'پروژه مورد نظر خود را انتخاب کنید',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 6),
-        Text(
-          'پروژه مورد نظر خود را انتخاب کنید',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black54,
-          ),
-        ),
+        UserMenu(username: 'mahdi', onLogout: () {
+          GetStorage().remove(AppConstants.accessToken);
+          GetStorage().remove(AppConstants.refreshToken);
+          GetStorage().remove(AppConstants.projectID);
+          Get.offAllNamed(RouteHelper.login);
+        },)
       ],
     );
   }

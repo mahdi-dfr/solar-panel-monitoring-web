@@ -340,3 +340,544 @@ class _ChartWrapper extends StatelessWidget {
     return SizedBox(height: 120, child: child);
   }
 }
+
+
+
+/// logout:
+
+class UserMenu extends StatelessWidget {
+
+  final String username;
+  final VoidCallback onLogout;
+
+
+  const UserMenu({
+    super.key,
+    required this.username,
+    required this.onLogout,
+  });
+
+
+  void _showLogoutDialog(BuildContext context) {
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+
+      builder: (context) {
+
+        return LogoutConfirmDialog(
+          onConfirm: onLogout,
+        );
+
+      },
+    );
+
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return PopupMenuButton<int>(
+
+      tooltip: '',
+
+      offset: const Offset(0, 12),
+
+      elevation: 8,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+
+
+      itemBuilder: (context) {
+
+        return [
+
+          PopupMenuItem(
+
+            enabled: false,
+
+            child: UserProfileItem(
+              username: username,
+            ),
+
+          ),
+
+
+          const PopupMenuDivider(),
+
+
+          PopupMenuItem(
+
+            value: 1,
+
+            child: Directionality(
+
+              textDirection: TextDirection.rtl,
+
+              child: Row(
+
+                children: const [
+
+                  Icon(
+                    Icons.logout_rounded,
+                    color: Colors.red,
+                  ),
+
+
+                  SizedBox(width: 10),
+
+
+                  Text(
+                    "خروج از حساب کاربری",
+
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+
+        ];
+
+      },
+
+
+      onSelected: (value){
+
+        if(value == 1){
+
+          _showLogoutDialog(context);
+
+        }
+
+      },
+
+
+      child: UserProfileButton(
+        username: username,
+      ),
+
+    );
+
+  }
+
+}
+
+
+
+
+class UserProfileButton extends StatelessWidget {
+
+  final String username;
+
+
+  const UserProfileButton({
+    super.key,
+    required this.username,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 9,
+      ),
+
+
+      decoration: BoxDecoration(
+
+        color: Colors.white,
+
+        borderRadius: BorderRadius.circular(30),
+
+
+        border: Border.all(
+          color: Colors.grey.shade300,
+        ),
+
+      ),
+
+
+      child: Row(
+
+        mainAxisSize: MainAxisSize.min,
+
+        children: [
+
+
+          CircleAvatar(
+
+            radius: 18,
+
+            backgroundColor: Colors.blue.shade50,
+
+
+            child: Icon(
+
+              Icons.person_outline_rounded,
+
+              color: Colors.blue.shade700,
+
+            ),
+
+          ),
+
+
+
+          const SizedBox(width: 10),
+
+
+
+          Text(
+
+            username,
+
+            style: const TextStyle(
+
+              fontWeight: FontWeight.w600,
+
+            ),
+
+          ),
+
+
+
+          const SizedBox(width: 5),
+
+
+
+          const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            size: 22,
+          ),
+
+
+        ],
+      ),
+    );
+
+  }
+
+}
+
+
+
+
+class UserProfileItem extends StatelessWidget {
+
+  final String username;
+
+
+  const UserProfileItem({
+    super.key,
+    required this.username,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Directionality(
+
+      textDirection: TextDirection.rtl,
+
+
+      child: Row(
+
+        children: [
+
+
+          CircleAvatar(
+
+            radius: 20,
+
+            backgroundColor: Colors.blue.shade50,
+
+
+            child: Icon(
+
+              Icons.person,
+
+              color: Colors.blue.shade700,
+
+            ),
+
+          ),
+
+
+
+          const SizedBox(width: 12),
+
+
+
+          Flexible(
+
+            child: Text(
+
+              username,
+
+              overflow: TextOverflow.ellipsis,
+
+
+              style: const TextStyle(
+
+                fontWeight: FontWeight.bold,
+
+              ),
+
+            ),
+          ),
+
+
+        ],
+      ),
+    );
+
+  }
+
+}
+
+
+
+
+class LogoutConfirmDialog extends StatelessWidget {
+
+  final VoidCallback onConfirm;
+
+
+  const LogoutConfirmDialog({
+
+    super.key,
+
+    required this.onConfirm,
+
+  });
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    final width = MediaQuery.of(context).size.width;
+
+
+    return Directionality(
+
+      textDirection: TextDirection.rtl,
+
+
+      child: Dialog(
+
+        shape: RoundedRectangleBorder(
+
+          borderRadius: BorderRadius.circular(22),
+
+        ),
+
+
+        child: ConstrainedBox(
+
+          constraints: BoxConstraints(
+
+            maxWidth: width > 500 ? 420 : width * .85,
+
+          ),
+
+
+          child: Padding(
+
+            padding: const EdgeInsets.all(24),
+
+
+            child: Column(
+
+              mainAxisSize: MainAxisSize.min,
+
+
+              children: [
+
+
+
+                Container(
+
+                  width: 60,
+
+                  height: 60,
+
+
+                  decoration: BoxDecoration(
+
+                    color: Colors.red.shade50,
+
+                    shape: BoxShape.circle,
+
+                  ),
+
+
+                  child: Icon(
+
+                    Icons.logout_rounded,
+
+                    size: 32,
+
+                    color: Colors.red.shade600,
+
+                  ),
+
+                ),
+
+
+
+
+                const SizedBox(height: 18),
+
+
+
+
+                const Text(
+
+                  "خروج از حساب کاربری",
+
+                  style: TextStyle(
+
+                    fontSize: 18,
+
+                    fontWeight: FontWeight.bold,
+
+                  ),
+
+                ),
+
+
+
+
+                const SizedBox(height: 12),
+
+
+
+
+                Text(
+
+                  "آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟",
+
+                  textAlign: TextAlign.center,
+
+
+                  style: TextStyle(
+
+                    color: Colors.grey.shade700,
+
+                    height: 1.8,
+
+                  ),
+
+                ),
+
+
+
+
+                const SizedBox(height: 25),
+
+
+
+
+                Row(
+
+                  children: [
+
+
+
+                    Expanded(
+
+                      child: OutlinedButton(
+
+                        onPressed: (){
+
+                          Navigator.pop(context);
+
+                        },
+
+
+                        child: const Text(
+                          "انصراف",
+                        ),
+
+                      ),
+
+                    ),
+
+
+
+                    const SizedBox(width: 12),
+
+
+
+
+                    Expanded(
+
+                      child: FilledButton(
+
+                        style: FilledButton.styleFrom(
+
+                          backgroundColor: Colors.red,
+
+                        ),
+
+
+                        onPressed: (){
+
+
+                          Navigator.pop(context);
+
+
+                          onConfirm();
+
+
+                        },
+
+
+                        child: const Text(
+
+                          "خروج",
+
+                        ),
+
+                      ),
+
+                    ),
+
+
+                  ],
+
+                )
+
+
+              ],
+
+            ),
+
+          ),
+
+        ),
+
+      ),
+
+    );
+
+  }
+
+}

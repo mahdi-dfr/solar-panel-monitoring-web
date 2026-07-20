@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:solar_web/features/dashboard/data/model/live_string_model.dart';
 
 import '../../../../constants/data_state.dart';
+import '../../domain/entities/live_string_entity.dart';
 import '../../domain/entities/string_entity.dart';
 import '../../domain/repository/dashboard_repository.dart';
 import '../api_service/dashboard_api_service.dart';
@@ -13,7 +15,7 @@ class DashboardRepositoryImpl extends DashboardRepository {
   DashboardRepositoryImpl(this._apiService);
 
   @override
-  Future<DataState<List<StringLiveEntity>>> getLiveData(
+  Future<DataState<List<LiveStringEntity>>> getLiveStringData(
       int projectId,
       ) async {
 
@@ -24,7 +26,7 @@ class DashboardRepositoryImpl extends DashboardRepository {
 
       if(response is! DioException){
 
-        List<StringLiveEntity> result = [];
+        List<LiveStringEntity> result = [];
 
         final boards = response.data['boards'];
 
@@ -35,7 +37,7 @@ class DashboardRepositoryImpl extends DashboardRepository {
           for(final string in strings){
 
             result.add(
-              StringLiveModel.fromJson(string),
+              LiveStringModel.fromJson(string),
             );
           }
         }
