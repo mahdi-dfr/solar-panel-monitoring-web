@@ -8,7 +8,6 @@ class DashboardApiService {
   final Dio _dio = Dio();
 
   Future<dynamic> getLiveData(int projectId) async {
-    print('1111111');
 
     _dio.interceptors.add(ApiInterceptor());
 
@@ -18,12 +17,9 @@ class DashboardApiService {
         "${UrlConstant.baseUrl}project/projects/$projectId/live-data/",
       );
 
-      print('222222222');
-      print(response);
       return response;
 
     } catch(e) {
-      print(e);
 
       return e;
 

@@ -6,6 +6,7 @@ import 'package:solar_web/constants/data_state.dart';
 import 'package:solar_web/features/dashboard/presentation/screens/projects_screen.dart';
 
 import '../../../../constants/route_helper.dart';
+import '../../../admin_panel/presentation/screens/admin_panel_page.dart';
 import '../../../dashboard/presentation/screens/dashboard_view.dart';
 import '../controller/login_controller.dart';
 
@@ -64,7 +65,8 @@ class SolarLoginPage extends GetView<LoginController> {
                             : _LoginButton(onTap:  (){
                               controller.login().then((value){
                                 if(value is DataSuccess){
-                                  Get.offAllNamed(RouteHelper.project);
+                                  // Get.offAllNamed(RouteHelper.project);
+                                  Get.to(AdminPanelPage);
                                 }else{
                                   Get.snackbar(
                                     "خطا",
