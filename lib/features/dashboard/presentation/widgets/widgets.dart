@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:solar_web/constants/app_colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../constants/constant.dart';
+import '../../domain/entities/live_string_entity.dart';
 import '../controller/dashboard_controller.dart';
 
 
@@ -880,4 +882,92 @@ class LogoutConfirmDialog extends StatelessWidget {
 
   }
 
+}
+
+
+
+class StringBox extends StatelessWidget {
+  final LiveStringEntity string;
+
+  const StringBox({
+    super.key,
+    required this.string,
+  });
+
+  bool get isActive {
+    return string.voltage >=
+        AppConstants.minimumStringVoltage;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isActive
+            ? Colors.green
+            : Colors.red,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          Text(
+            string.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 4),
+
+          Text(
+            '${string.voltage} V',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class LegendItem extends StatelessWidget {
+  final Color color;
+  final String text;
+
+  const LegendItem({
+    super.key,
+    required this.color,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+
+        Container(
+          width: 14,
+          height: 14,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+
+        const SizedBox(width: 6),
+
+        Text(text),
+      ],
+    );
+  }
 }

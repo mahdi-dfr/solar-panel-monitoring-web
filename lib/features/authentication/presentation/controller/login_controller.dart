@@ -2,6 +2,8 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_web/features/authentication/data/model/LoginParamsModel.dart';
+import 'package:solar_web/features/authentication/domain/entities/user_info_entity.dart';
+import 'package:solar_web/features/authentication/domain/usecase/user_info_usecase.dart';
 
 import '../../../../constants/data_state.dart';
 import '../../domain/entities/auth_entity.dart';
@@ -13,12 +15,15 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
   late final Animation<Offset> slideAnimation;
 
   final LoginUseCase _useCase;
+  final UserInfoUseCase _userInfoUseCase;
 
-  LoginController(this._useCase);
+  LoginController(this._useCase, this._userInfoUseCase);
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   var isLoading = false.obs;
+
+  final Rxn<UserInfoEntity> userInfo = Rxn<UserInfoEntity>();
 
   @override
   void onInit() {
@@ -35,6 +40,18 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
 
     animationController.forward();
   }
+
+
+
+
+  Future<DataState<String>> getUserInfo() async {
+    final result = await _userInfoUseCase.call(null);
+    userInfo.value = result.data!;
+    print(userInfo.value!.isStaff);
+    return DataSuccess('');
+  }
+
+
 
   @override
   void onClose() {

@@ -63,10 +63,15 @@ class SolarLoginPage extends GetView<LoginController> {
                         controller.isLoading.value
                             ? CircularProgressIndicator()
                             : _LoginButton(onTap:  (){
-                              controller.login().then((value){
+                              controller.login().then((value) async {
                                 if(value is DataSuccess){
-                                  // Get.offAllNamed(RouteHelper.project);
-                                  Get.to(AdminPanelPage);
+                                  // await controller.getUserInfo();
+                                  // if (controller.userInfo.value?.isStaff == false){
+                                  //   Get.offAllNamed(RouteHelper.project);
+                                  // }else{
+                                  //   Get.to(AdminPanelPage);
+                                  // }
+                                  Get.offAllNamed(RouteHelper.project);
                                 }else{
                                   Get.snackbar(
                                     "خطا",

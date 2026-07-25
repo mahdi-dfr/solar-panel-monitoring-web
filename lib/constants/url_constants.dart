@@ -8,6 +8,7 @@ class UrlConstant {
   static const String project = 'api/project/projects/';
   static const String weather = 'api/project/weather/';
   static const String panel = 'api/project/panels/';
+  static const String user = 'api/user/user/';
 
 
 }

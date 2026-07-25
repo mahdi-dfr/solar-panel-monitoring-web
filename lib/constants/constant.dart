@@ -9,4 +9,7 @@ class AppConstants{
   static String refreshToken = 'refresh_token';
   static String projectID = 'project_id';
   static int requestLiveDataTimer = 1;
+
+
+  static const int minimumStringVoltage = 10;
 }

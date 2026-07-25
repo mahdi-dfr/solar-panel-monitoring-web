@@ -71,13 +71,12 @@ class DashboardController extends GetxController {
 
   Future<void> loadLiveData() async {
 
-    final result =
+    final result = await _useCase.call(
+      GetStorage().read(AppConstants.projectID),
+    );
 
-    await _useCase.call(GetStorage().read(AppConstants.projectID));
-
-    if(result is DataSuccess){
-
-      strings.value = result.data!;
+    if (result is DataSuccess) {
+      strings.assignAll(result.data!);
     }
   }
 

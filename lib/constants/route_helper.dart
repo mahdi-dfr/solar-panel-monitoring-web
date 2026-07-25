@@ -1,9 +1,9 @@
 
 import 'package:get/get.dart';
-import 'package:solar_web/features/authentication/view/screens/login_screen.dart';
 import 'package:solar_web/features/dashboard/presentation/screens/dashboard_view.dart';
 import 'package:solar_web/features/dashboard/presentation/screens/projects_screen.dart';
 
+import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/dashboard/presentation/screens/hitmap_screen.dart';
 
 class RouteHelper {

@@ -39,10 +39,11 @@ class DashboardPage extends StatelessWidget {
                             Image.asset(AppConstants.logo, width: context.width / 14),
                             SizedBox(width: 24),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   "نمای کلی",
-                                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 4),
                                 const Text("خلاصه وضعیت سیستم"),
