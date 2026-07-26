@@ -36,6 +36,10 @@ class DashboardPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            PanelBackButton(onPressed: () {
+                              Get.toNamed(RouteHelper.project);
+                            },),
+                            SizedBox(width: 18),
                             Image.asset(AppConstants.logo, width: context.width / 14),
                             SizedBox(width: 24),
                             Column(
@@ -68,7 +72,7 @@ class DashboardPage extends StatelessWidget {
                     const SizedBox(height: 32),
                     const WeatherOverviewCard(),
                     const SizedBox(height: 48),
-                    // TopCards(),
+                    TopCards(),
 
                     const SizedBox(height: 32),
 
@@ -92,45 +96,69 @@ class TopCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-
     return LayoutBuilder(
-      builder: (_, __) {
+      builder: (
+          BuildContext context,
+          BoxConstraints constraints,
+          ) {
+
+        final width = constraints.maxWidth;
+
         double cardWidth;
 
         if (width >= 1200) {
-          cardWidth = (width - 96) / 4; // 4 کارت کنار هم
-        } else if (width >= 900) {
-          cardWidth = (width - 64) / 2; // 2 کارت
+
+          cardWidth = (
+              width - 32
+          ) / 3;
+
+        } else if (width >= 700) {
+
+          cardWidth = (
+              width - 16
+          ) / 2;
+
         } else {
-          cardWidth = width; // موبایل
+
+          cardWidth = width;
         }
+
         return Wrap(
           spacing: 16,
           runSpacing: 16,
           children: [
+
             SizedBox(
               width: cardWidth,
-              child: const AnimatedEntry(delay: 0, child: SolarRadianceCard()),
+              child: const AnimatedEntry(
+                delay: 0,
+                child: SolarRadianceCard(),
+              ),
             ),
+
             SizedBox(
               width: cardWidth,
-              child: const AnimatedEntry(delay: 120, child: PowerOutputCard()),
+              child: const AnimatedEntry(
+                delay: 120,
+                child: PowerOutputCard(),
+              ),
             ),
+
             SizedBox(
               width: cardWidth,
-              child: const AnimatedEntry(delay: 240, child: EnergyStorageCard()),
+              child: const AnimatedEntry(
+                delay: 240,
+                child: EnergyStorageCard(),
+              ),
             ),
-            SizedBox(
-              width: cardWidth,
-              child: const AnimatedEntry(delay: 360, child: LatestEventsCard()),
-            ),
+
           ],
         );
       },
     );
   }
 }
+
 
 class WeatherOverviewCard extends GetView<DashboardController> {
   const WeatherOverviewCard({super.key});

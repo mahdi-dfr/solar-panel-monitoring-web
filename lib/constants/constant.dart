@@ -8,6 +8,7 @@ class AppConstants{
   static String accessToken = 'access_token';
   static String refreshToken = 'refresh_token';
   static String projectID = 'project_id';
+  static String chartPeriod = 'week';
   static int requestLiveDataTimer = 1;
 
 

@@ -35,17 +35,17 @@ class AppBindings extends Bindings {
     /// use case
     Get.put(LoginUseCase(Get.find<AuthRepository>()));
     Get.put(ProjectUseCase(Get.find<ProjectRepository>()));
-    Get.put(PanelUseCase(Get.find<ProjectRepository>()));
     Get.put(WeatherUseCase(Get.find<ProjectRepository>()));
     Get.put(DashboardUseCase(Get.find<DashboardRepository>()));
     Get.put(UserInfoUseCase(Get.find<AuthRepository>()));
+    Get.put(GetDashboardChartUseCase(Get.find<DashboardRepository>()));
 
     /// controllers
     Get.lazyPut(
       () => DashboardController(
-        Get.find<PanelUseCase>(),
         Get.find<WeatherUseCase>(),
         Get.find<DashboardUseCase>(),
+        Get.find<GetDashboardChartUseCase>(),
       ),
     );
     Get.put(LoginController(Get.find<LoginUseCase>(), Get.find<UserInfoUseCase>()));

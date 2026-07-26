@@ -1,16 +1,42 @@
-import 'package:solar_web/features/dashboard/domain/entities/panels_entity.dart';
-
-import '../../../../constants/data_state.dart';
+import '../../../../constants/data_state.dart' show DataState;
 import '../../../../constants/usecase.dart';
-import '../repository/projects_repository.dart';
+import '../entities/chart_entity.dart';
+import '../repository/dashboard_repository.dart';
 
-class PanelUseCase extends UseCase<PanelListEntity, int> {
-  final ProjectRepository _repository;
+class GetDashboardChartUseCase
+    extends UseCase<
+        List<DashboardChartEntity>,
+        DashboardChartParams
+    > {
 
-  PanelUseCase(this._repository);
+  final DashboardRepository _repository;
+
+  GetDashboardChartUseCase(
+      this._repository,
+      );
 
   @override
-  Future<DataState<PanelListEntity>> call(int projectId) {
-    return _repository.getPanels(projectId);
+  Future<DataState<List<DashboardChartEntity>>>
+  call(
+      DashboardChartParams params,
+      ) {
+
+    return _repository.getDashboardChartData(
+      params.projectId,
+      params.period,
+    );
   }
 }
+
+
+class DashboardChartParams {
+
+  final int projectId;
+  final String period;
+
+  DashboardChartParams({
+    required this.projectId,
+    required this.period,
+  });
+}
+

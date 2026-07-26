@@ -14,6 +14,8 @@ import 'package:solar_web/constants/constant.dart';
 import 'package:solar_web/features/dashboard/domain/entities/live_string_entity.dart';
 import 'package:solar_web/features/dashboard/presentation/controller/dashboard_controller.dart';
 
+import '../widgets/widgets.dart';
+
 class PanelOverviewPage extends StatelessWidget {
   PanelOverviewPage({super.key});
 
@@ -110,6 +112,13 @@ class PanelOverviewHeader extends StatelessWidget {
           )
               : Row(
             children: [
+
+              PanelBackButton(onPressed: () {
+                Get.toNamed(RouteHelper.dashboard);
+              },),
+
+              SizedBox(width: 18,),
+
               Image.asset(AppConstants.logo, width: context.width / 14),
 
               const SizedBox(width: 24),
@@ -121,6 +130,10 @@ class PanelOverviewHeader extends StatelessWidget {
               PanelStatistics(
                 controller: controller,
               ),
+
+              SizedBox(width: 16,),
+
+
             ],
           ),
         );
@@ -161,34 +174,7 @@ class PanelOverviewTitle extends StatelessWidget {
   }
 }
 
-class PanelBackButton extends StatelessWidget {
-  const PanelBackButton({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: (){
-          Get.toNamed(RouteHelper.dashboard);
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: CustomAppColors.backgroundColor,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.arrow_back_rounded,
-            size: 23,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class PanelStatistics extends StatelessWidget {
   final DashboardController controller;
@@ -594,7 +580,9 @@ class PanelOverviewTopRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const PanelBackButton(),
+         PanelBackButton(onPressed: () {
+          Get.toNamed(RouteHelper.dashboard);
+          },),
 
         const SizedBox(width: 12),
 

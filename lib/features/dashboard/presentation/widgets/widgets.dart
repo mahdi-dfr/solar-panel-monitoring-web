@@ -4,6 +4,8 @@ import 'package:solar_web/constants/app_colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../constants/constant.dart';
+import '../../../../constants/route_helper.dart';
+import '../../domain/entities/chart_entity.dart';
 import '../../domain/entities/live_string_entity.dart';
 import '../controller/dashboard_controller.dart';
 
@@ -14,18 +16,38 @@ class SolarRadianceCard extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return _BaseCard(
-      title: "میزان تابش در هر استرینگ",
-      subtitle: "میزان تابش خورشید در هر استرینگ",
+      title: "میزان ولتاژ",
+      subtitle: "میانگین ولتاژ در بازه انتخاب‌شده",
       child: Obx(() {
-        final p = controller.selectedPanel;
+
+        final data = controller.chartData;
+
+        if (data.isEmpty) {
+          return const _EmptyChart();
+        }
+
         return _ChartWrapper(
           child: SfCartesianChart(
             primaryXAxis: CategoryAxis(),
+
             series: <CartesianSeries>[
-              ColumnSeries<double, String>(
-                dataSource: [p.radiance],
-                xValueMapper: (_, __) => "Panel ${p.id}",
-                yValueMapper: (v, _) => v,
+              ColumnSeries<DashboardChartEntity, String>(
+                dataSource: data,
+
+                xValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.date;
+                },
+
+                yValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.averageVoltage;
+                },
+
                 color: Colors.green,
               ),
             ],
@@ -46,19 +68,42 @@ class PowerOutputCard extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return _BaseCard(
       title: "توان تولیدی",
-      subtitle: "توان خروجی اینورتر",
+      subtitle: "میانگین توان تولیدی در بازه انتخاب‌شده",
       child: Obx(() {
-        final p = controller.selectedPanel;
+
+        final data = controller.chartData;
+
+        if (data.isEmpty) {
+          return const _EmptyChart();
+        }
+
         return _ChartWrapper(
           child: SfCartesianChart(
-            primaryXAxis: NumericAxis(),
+            primaryXAxis: CategoryAxis(),
+
             series: <CartesianSeries>[
-              LineSeries<double, double>(
-                dataSource: [p.current, p.current * 0.8, p.current * 1.1],
-                xValueMapper: (v, i) => i.toDouble(),
-                yValueMapper: (v, _) => v,
+              LineSeries<DashboardChartEntity, String>(
+                dataSource: data,
+
+                xValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.date;
+                },
+
+                yValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.averagePower;
+                },
+
                 color: Colors.green,
-                markerSettings: const MarkerSettings(isVisible: true),
+
+                markerSettings: const MarkerSettings(
+                  isVisible: true,
+                ),
               ),
             ],
           ),
@@ -77,18 +122,38 @@ class EnergyStorageCard extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return _BaseCard(
-      title: "انرژی ذخیره‌شده",
-      subtitle: "میزان انرژی ذخیره‌شده در باتری",
+      title: "انرژی",
+      subtitle: "میانگین انرژی در بازه انتخاب‌شده",
       child: Obx(() {
-        final p = controller.selectedPanel;
+
+        final data = controller.chartData;
+
+        if (data.isEmpty) {
+          return const _EmptyChart();
+        }
+
         return _ChartWrapper(
           child: SfCartesianChart(
             primaryXAxis: CategoryAxis(),
+
             series: <CartesianSeries>[
-              ColumnSeries<double, String>(
-                dataSource: [p.voltage],
-                xValueMapper: (_, __) => "Battery",
-                yValueMapper: (v, _) => v,
+              ColumnSeries<DashboardChartEntity, String>(
+                dataSource: data,
+
+                xValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.date;
+                },
+
+                yValueMapper: (
+                    DashboardChartEntity item,
+                    _,
+                    ) {
+                  return item.averageEnergy;
+                },
+
                 color: Colors.green,
               ),
             ],
@@ -99,31 +164,18 @@ class EnergyStorageCard extends GetView<DashboardController> {
   }
 }
 
-///
-/// EVENTS CARD
-///
-class LatestEventsCard extends StatelessWidget {
-  const LatestEventsCard({super.key});
+class _EmptyChart extends StatelessWidget {
+  const _EmptyChart();
 
   @override
   Widget build(BuildContext context) {
-    return _BaseCard(
-      title: "آخرین رویدادها",
-      subtitle: "آخرین رویدادهای مربوط به سیستم",
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("• باتری شماره ۲ کاملاً شارژ شده است", style: TextStyle(color: CustomAppColors.secondaryColor)),
-          SizedBox(height: 8),
-          Text("• ورود از دستگاه جدید انجام شد"),
-          SizedBox(height: 8),
-          Text("• سطح شارژ باتری شماره ۳ پایین است", style: TextStyle(color: Colors.red)),
-        ],
+    return const Center(
+      child: Text(
+        'داده‌ای برای نمایش وجود ندارد',
       ),
     );
   }
 }
-
 
 class AnimatedEntry extends StatelessWidget {
   final Widget child;
@@ -198,27 +250,27 @@ class PanelStatusTable extends GetView<DashboardController> {
                           columns: const [
 
                             DataColumn(
-                              label: Text("نام استرینگ"),
+                              label: Text("نام استرینگ", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
 
                             DataColumn(
-                              label: Text("شناسه استرینگ"),
+                              label: Text("شناسه استرینگ", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
 
                             DataColumn(
-                              label: Text("ولتاژ"),
+                              label: Text("ولتاژ", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
 
                             DataColumn(
-                              label: Text("جریان"),
+                              label: Text("جریان", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
 
                             DataColumn(
-                              label: Text("توان"),
+                              label: Text("توان", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
 
                             DataColumn(
-                              label: Text("انرژی"),
+                              label: Text("انرژی", style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
                           ],
                           rows: controller.strings.map((item) {
@@ -278,7 +330,6 @@ class PanelStatusTable extends GetView<DashboardController> {
     );
   }
 }
-
 
 
 
@@ -343,10 +394,7 @@ class _ChartWrapper extends StatelessWidget {
   }
 }
 
-
-
 /// logout:
-
 class UserMenu extends StatelessWidget {
 
   final String username;
@@ -474,9 +522,6 @@ class UserMenu extends StatelessWidget {
 
 }
 
-
-
-
 class UserProfileButton extends StatelessWidget {
 
   final String username;
@@ -575,9 +620,6 @@ class UserProfileButton extends StatelessWidget {
 
 }
 
-
-
-
 class UserProfileItem extends StatelessWidget {
 
   final String username;
@@ -651,9 +693,6 @@ class UserProfileItem extends StatelessWidget {
   }
 
 }
-
-
-
 
 class LogoutConfirmDialog extends StatelessWidget {
 
@@ -884,90 +923,31 @@ class LogoutConfirmDialog extends StatelessWidget {
 
 }
 
+class PanelBackButton extends StatelessWidget {
+  const PanelBackButton({super.key, required this.onPressed});
 
-
-class StringBox extends StatelessWidget {
-  final LiveStringEntity string;
-
-  const StringBox({
-    super.key,
-    required this.string,
-  });
-
-  bool get isActive {
-    return string.voltage >=
-        AppConstants.minimumStringVoltage;
-  }
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isActive
-            ? Colors.green
-            : Colors.red,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          Text(
-            string.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 4),
-
-          Text(
-            '${string.voltage} V',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-class LegendItem extends StatelessWidget {
-  final Color color;
-  final String text;
-
-  const LegendItem({
-    super.key,
-    required this.color,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-
-        Container(
-          width: 14,
-          height: 14,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(3),
+            color: CustomAppColors.backgroundColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            size: 23,
           ),
         ),
-
-        const SizedBox(width: 6),
-
-        Text(text),
-      ],
+      ),
     );
   }
 }

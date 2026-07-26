@@ -30,4 +30,34 @@ class DashboardApiService {
 
     }
   }
+
+
+  Future<dynamic> getDashboardChartData(
+      int projectId,
+      String period,
+      ) async {
+
+    _dio.interceptors.add(
+      ApiInterceptor(),
+    );
+
+    try {
+
+      final response = await _dio.get(
+        "${UrlConstant.baseUrl}"
+            "api/project/projects/"
+            "$projectId/dashboard-chart/",
+        queryParameters: {
+          'period': period,
+        },
+      );
+
+      return response;
+
+    } catch (e) {
+
+      return e;
+
+    }
+  }
 }
