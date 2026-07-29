@@ -1,10 +1,12 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:solar_web/features/authentication/data/model/LoginParamsModel.dart';
 import 'package:solar_web/features/authentication/domain/entities/user_info_entity.dart';
 import 'package:solar_web/features/authentication/domain/usecase/user_info_usecase.dart';
 
+import '../../../../constants/constant.dart';
 import '../../../../constants/data_state.dart';
 import '../../domain/entities/auth_entity.dart';
 import '../../domain/usecase/login_usecase.dart';
@@ -47,6 +49,7 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
   Future<DataState<String>> getUserInfo() async {
     final result = await _userInfoUseCase.call(null);
     userInfo.value = result.data!;
+    GetStorage().write(AppConstants.userName, userInfo.value?.username);
     print(userInfo.value!.isStaff);
     return DataSuccess('');
   }

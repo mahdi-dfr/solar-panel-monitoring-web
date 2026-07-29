@@ -84,7 +84,7 @@ class _HeaderSection extends StatelessWidget {
             ),
           ],
         ),
-        UserMenu(username: 'mahdi', onLogout: () {
+        UserMenu(username: GetStorage().read(AppConstants.userName), onLogout: () {
           GetStorage().remove(AppConstants.accessToken);
           GetStorage().remove(AppConstants.refreshToken);
           GetStorage().remove(AppConstants.projectID);

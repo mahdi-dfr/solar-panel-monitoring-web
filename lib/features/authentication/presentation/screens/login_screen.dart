@@ -65,7 +65,7 @@ class SolarLoginPage extends GetView<LoginController> {
                             : _LoginButton(onTap:  (){
                               controller.login().then((value) async {
                                 if(value is DataSuccess){
-                                  // await controller.getUserInfo();
+                                  await controller.getUserInfo();
                                   // if (controller.userInfo.value?.isStaff == false){
                                   //   Get.offAllNamed(RouteHelper.project);
                                   // }else{
