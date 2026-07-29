@@ -11,6 +11,7 @@ class DashboardUseCase extends UseCase<List<LiveStringEntity>, int>{
 
   @override
   Future<DataState<List<LiveStringEntity>>> call(int params) {
+    print(_repository.getLiveStringData(params));
     return _repository.getLiveStringData(params);
   }
 

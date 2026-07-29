@@ -1,9 +1,9 @@
 class DashboardChartEntity {
 
-  final String date;
-  final double averagePower;
-  final double averageEnergy;
-  final double averageVoltage;
+  final String? date;
+  final double? averagePower;
+  final double? averageEnergy;
+  final double? averageVoltage;
 
   DashboardChartEntity({
     required this.date,

@@ -17,9 +17,7 @@ class DashboardRepositoryImpl extends DashboardRepository {
   DashboardRepositoryImpl(this._apiService);
 
   @override
-  Future<DataState<List<LiveStringEntity>>> getLiveStringData(
-      int projectId,
-      ) async {
+  Future<DataState<List<LiveStringEntity>>> getLiveStringData(int projectId,) async {
 
     try {
 
@@ -62,11 +60,7 @@ class DashboardRepositoryImpl extends DashboardRepository {
 
 
   @override
-  Future<DataState<List<DashboardChartEntity>>>
-  getDashboardChartData(
-      int projectId,
-      String period,
-      ) async {
+  Future<DataState<List<DashboardChartEntity>>> getDashboardChartData(int projectId, String period,) async {
 
     try {
 

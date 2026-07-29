@@ -280,7 +280,7 @@ class PanelStatusTable extends GetView<DashboardController> {
                               cells: [
 
                                 DataCell(
-                                  Text(item.name),
+                                  Text(item.name ?? ''),
                                 ),
 
                                 DataCell(

@@ -23,12 +23,12 @@ class LiveBoardEntity {
 
 
 class LiveStringEntity {
-  final int stringId;
-  final String name;
-  final int voltage;
-  final int current;
-  final double power;
-  final double energy;
+  final int? stringId;
+  final String? name;
+  final int? voltage;
+  final int? current;
+  final double? power;
+  final double? energy;
 
   const LiveStringEntity({
     required this.stringId,

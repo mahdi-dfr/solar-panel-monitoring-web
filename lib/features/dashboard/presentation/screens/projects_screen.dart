@@ -147,13 +147,12 @@ class _ProjectCard extends StatelessWidget {
   final int index;
 
   final _projectController = Get.find<ProjectsController>();
-  final _dashboardController = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _dashboardController.saveProjectId(_projectController.projects[index].id ?? -1);
+        _projectController.saveProjectId(_projectController.projects[index].id ?? -1);
         Get.toNamed(RouteHelper.dashboard);
       },
       borderRadius: BorderRadius.circular(16),

@@ -76,6 +76,9 @@ class DashboardController extends GetxController {
   }
 
   Future<void> loadLiveData() async {
+    print('adadadadsssdds');
+    print(GetStorage().read(AppConstants.projectID));
+    print(GetStorage().read(AppConstants.projectID).runtimeType);
     final result = await _useCase.call(
       GetStorage().read(AppConstants.projectID),
     );
@@ -90,9 +93,6 @@ class DashboardController extends GetxController {
     humidity.value = hum;
   }
 
-  saveProjectId(int projectID) {
-    GetStorage().write(AppConstants.projectID, projectID);
-  }
 
   Future<void> loadWeather(int projectId) async {
     isWeatherLoading.value = true;
@@ -114,6 +114,7 @@ class DashboardController extends GetxController {
 
 
   Future<void> loadDashboardChartData({bool showLoading = true,}) async {
+
     if (showLoading) {
       isLoading.value = true;
     }
@@ -133,6 +134,7 @@ class DashboardController extends GetxController {
         result.data!,
       );
     }
+    print('010100100101');
     if (showLoading) {
       isLoading.value = false;
     }

@@ -190,13 +190,9 @@ class PanelStatistics extends StatelessWidget {
           () {
         final total = controller.strings.length;
 
-        final active = controller.strings
-            .where(
-              (string) =>
-          string.voltage >=
-              AppConstants.minimumStringVoltage,
-        )
-            .length;
+        final active = controller.strings.where((string) {
+          return string.voltage != null ? string.voltage! >= AppConstants.minimumStringVoltage : false;
+        }).length;
 
         final inactive = total - active;
 
@@ -443,9 +439,9 @@ class StringBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isActive =
-        string.voltage >=
-            AppConstants.minimumStringVoltage;
+    final isActive = string.voltage != null ?
+        string.voltage! >=
+            AppConstants.minimumStringVoltage : false;
 
     return Container(
       decoration: BoxDecoration(
@@ -462,7 +458,7 @@ class StringBox extends StatelessWidget {
               horizontal: 4,
             ),
             child: Text(
-              string.name,
+              string.name ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
