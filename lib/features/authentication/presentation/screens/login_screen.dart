@@ -18,12 +18,16 @@ class SolarLoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     final width = context.width;
     final height = context.height;
-    final isWide = width > 900;
 
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(AppConstants.loginBackground, fit: BoxFit.fill, height: height, width: width),
+          Image.asset(
+            AppConstants.loginBackground,
+            fit: BoxFit.fill,
+            height: height,
+            width: width,
+          ),
 
           Center(
             child: FadeTransition(
@@ -35,55 +39,84 @@ class SolarLoginPage extends GetView<LoginController> {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.all(32),
                   decoration: _cardDecoration(),
-                  child: Obx((){
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 24),
-                        Image.asset(AppConstants.logo, width: context.width / 10),
-                        const SizedBox(height: 12),
-                        Text(
-                          'مانیتورینگ پنل های خورشیدی',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red),
-                        ),
-                        const SizedBox(height: 24),
-                        _InputField(
-                          controller: controller.usernameController,
-                          label: 'نام کاربری',
-                          icon: Icons.person_outline,
-                        ),
-                        const SizedBox(height: 16),
-                        _InputField(
-                          controller: controller.passwordController,
-                          label: 'رمز عبور',
-                          icon: Icons.lock_outline,
-                          obscure: true,
-                        ),
-                        const SizedBox(height: 28),
-                        controller.isLoading.value
-                            ? CircularProgressIndicator()
-                            : _LoginButton(onTap:  (){
-                              controller.login().then((value) async {
-                                if(value is DataSuccess){
-                                  await controller.getUserInfo();
-                                  // if (controller.userInfo.value?.isStaff == false){
-                                  //   Get.offAllNamed(RouteHelper.project);
-                                  // }else{
-                                  //   Get.to(AdminPanelPage);
-                                  // }
-                                  Get.offAllNamed(RouteHelper.project);
-                                }else{
+                  child: Obx(
+                        () {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 24),
+
+                          Image.asset(
+                            AppConstants.logo,
+                            width: context.width / 10,
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          const Text(
+                            'مانیتورینگ پنل های خورشیدی',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          _InputField(
+                            controller: controller.usernameController,
+                            label: 'نام کاربری',
+                            icon: Icons.person_outline,
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          _InputField(
+                            controller: controller.passwordController,
+                            label: 'رمز عبور',
+                            icon: Icons.lock_outline,
+                            obscure: true,
+                          ),
+
+                          const SizedBox(height: 28),
+
+                          controller.isLoading.value
+                              ? const CircularProgressIndicator()
+                              : _LoginButton(
+                            onTap: () async {
+                              final result = await controller.login();
+
+                              if (result is DataSuccess) {
+                                Get.offAllNamed(
+                                  RouteHelper.project,
+                                );
+                                final userResult =
+                                await controller.getUserInfo();
+
+
+                                if (userResult is DataSuccess) {
+
+                                } else {
                                   Get.snackbar(
-                                    "خطا",
-                                    value.error ?? '',
+                                    'خطا',
+                                    userResult.error ?? 'خطا در دریافت اطلاعات کاربر',
                                     snackPosition: SnackPosition.TOP,
                                   );
                                 }
-                              });
-                        }),
-                      ],
-                    );
-                  })
+                              } else {
+                                Get.snackbar(
+                                  'خطا',
+                                  result.error ?? 'نام کاربری یا رمز عبور اشتباه است',
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -93,14 +126,21 @@ class SolarLoginPage extends GetView<LoginController> {
     );
   }
 
-  BoxDecoration _cardDecoration() => BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(20),
-    boxShadow: [
-      BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 25, offset: const Offset(0, 10)),
-    ],
-  );
+  BoxDecoration _cardDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.08),
+          blurRadius: 25,
+          offset: const Offset(0, 10),
+        ),
+      ],
+    );
+  }
 }
+
 
 class _InputField extends StatelessWidget {
   final TextEditingController controller;

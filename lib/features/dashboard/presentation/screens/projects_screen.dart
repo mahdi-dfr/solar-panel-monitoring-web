@@ -69,27 +69,24 @@ class _HeaderSection extends StatelessWidget {
           children: const [
             Text(
               'پروژه ها',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 6),
             Text(
               'پروژه مورد نظر خود را انتخاب کنید',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
           ],
         ),
-        UserMenu(username: GetStorage().read(AppConstants.userName), onLogout: () {
-          GetStorage().remove(AppConstants.accessToken);
-          GetStorage().remove(AppConstants.refreshToken);
-          GetStorage().remove(AppConstants.projectID);
-          Get.offAllNamed(RouteHelper.login);
-        },)
+        UserMenu(
+          username: GetStorage().read(AppConstants.userName) ?? '',
+          onLogout: () {
+            GetStorage().remove(AppConstants.accessToken);
+            GetStorage().remove(AppConstants.refreshToken);
+            GetStorage().remove(AppConstants.projectID);
+            Get.offAllNamed(RouteHelper.login);
+          },
+        ),
       ],
     );
   }
@@ -103,7 +100,7 @@ class _GridProjectsView extends GetView<ProjectsController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => GridView.builder(
+      () => GridView.builder(
         itemCount: controller.projects.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: columns,
@@ -126,7 +123,7 @@ class _ListProjectsView extends GetView<ProjectsController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => ListView.separated(
+      () => ListView.separated(
         itemCount: controller.projects.length,
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
@@ -152,7 +149,9 @@ class _ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _projectController.saveProjectId(_projectController.projects[index].id ?? -1);
+        _projectController.saveProjectId(
+          _projectController.projects[index].id ?? -1,
+        );
         Get.toNamed(RouteHelper.dashboard);
       },
       borderRadius: BorderRadius.circular(16),
@@ -166,7 +165,7 @@ class _ProjectCard extends StatelessWidget {
               color: Colors.black.withOpacity(0.05),
               blurRadius: 12,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
           border: Border.all(
             color: CustomAppColors.secondaryColor.withOpacity(0.08),
@@ -211,10 +210,7 @@ class _ProjectCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     project.city ?? '',
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.black54,
-                    ),
+                    style: const TextStyle(fontSize: 13, color: Colors.black54),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -230,10 +226,7 @@ class _ProjectCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     project.projectAddress ?? '',
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.black54,
-                    ),
+                    style: const TextStyle(fontSize: 13, color: Colors.black54),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

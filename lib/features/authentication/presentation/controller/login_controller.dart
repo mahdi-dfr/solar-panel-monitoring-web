@@ -47,11 +47,41 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
 
 
   Future<DataState<String>> getUserInfo() async {
-    final result = await _userInfoUseCase.call(null);
-    userInfo.value = result.data!;
-    GetStorage().write(AppConstants.userName, userInfo.value?.username);
-    print(userInfo.value!.isStaff);
-    return DataSuccess('');
+    try {
+      final result = await _userInfoUseCase.call(null);
+
+      if (result is DataSuccess && result.data != null) {
+        userInfo.value = result.data!;
+
+        final username = userInfo.value?.username;
+
+        if (username != null && username.trim().isNotEmpty) {
+          await GetStorage().write(
+            AppConstants.userName,
+            username,
+          );
+        } else {
+          return DataFailed(
+            'نام کاربری از سرور دریافت نشد',
+          );
+        }
+
+        print('isStaff: ${userInfo.value!.isStaff}');
+        print('username: $username');
+
+        return DataSuccess('');
+      }
+
+      return DataFailed(
+        result.error ?? 'دریافت اطلاعات کاربر ناموفق بود',
+      );
+    } catch (e) {
+      print('getUserInfo error: $e');
+
+      return DataFailed(
+        'خطا در دریافت اطلاعات کاربر',
+      );
+    }
   }
 
 
@@ -60,22 +90,37 @@ class LoginController extends GetxController with GetSingleTickerProviderStateMi
   void onClose() {
     animationController.dispose();
     usernameController.dispose();
+    usernameController.clear();
     passwordController.dispose();
+    passwordController.clear();
     super.onClose();
   }
 
-  Future<DataState<String>> login() async {
+  Future<DataState> login() async {
     isLoading.value = true;
 
-    final result = await _useCase(
-      LoginParamsModel(username: usernameController.text, password: passwordController.text),
-    );
+    try {
+      final result = await _useCase(
+        LoginParamsModel(
+          username: usernameController.text.trim(),
+          password: passwordController.text,
+        ),
+      );
 
-    isLoading.value = false;
+      if (result is DataSuccess<AuthEntity>) {
+        return DataSuccess('');
+      }
 
-    if (result is DataSuccess<AuthEntity>) {
-      return DataSuccess('');
+      return DataFailed(
+        result.error ?? 'ورود ناموفق بود',
+      );
+    } catch (e) {
+
+      return DataFailed(
+        'خطا در ارتباط با سرور',
+      );
+    }finally{
+      isLoading.value = false;
     }
-    return DataFailed(result.error ?? '');
   }
 }

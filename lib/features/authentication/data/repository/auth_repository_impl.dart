@@ -49,7 +49,10 @@ class AuthRepositoryImpl extends AuthRepository {
 
       if(response is! DioException){
         if (response.statusCode == 200) {
-          UserInfoEntity entity = UserInfoModel.fromJson(response.data);
+          print(response.data);
+          UserInfoEntity entity = UserInfoModel.fromJson(response.data['results'][0]);
+          print('uuuussss');
+          print(entity.username);
           return DataSuccess<UserInfoEntity>(entity);
         }
       }

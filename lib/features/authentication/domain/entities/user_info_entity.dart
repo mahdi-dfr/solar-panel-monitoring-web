@@ -6,7 +6,7 @@ class UserInfoEntity {
   final String? mobileNumber;
   final String? address;
   final String? email;
-  final String? isStaff;
+  final bool? isStaff;
 
   const UserInfoEntity({
     this.id,
